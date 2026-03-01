@@ -1,0 +1,5 @@
+Default credentials:
+   Admin:    admin@egycodera.com / EgyCodera@2024
+   Partner1: ahmed@egycodera.com / EgyCodera@2024
+   Partner2: omar@egycodera.com  / EgyCodera@2024
+   Partner3: sara@egycodera.com  / EgyCodera@2024
