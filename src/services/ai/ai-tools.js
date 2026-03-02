@@ -247,14 +247,14 @@ async function getWalletSummary(userId) {
   const wallet = await prisma.wallet.findUnique({
     where: { userId },
     select: {
-      totalEarnings: true, pendingEarnings: true,
+      totalEarned: true, pendingBalance: true,
       availableBalance: true, totalWithdrawn: true,
     }
   });
   if (!wallet) return { error: 'No wallet found.' };
   return {
-    totalEarnings: Number(wallet.totalEarnings),
-    pendingEarnings: Number(wallet.pendingEarnings),
+    totalEarned: Number(wallet.totalEarned),
+    pendingBalance: Number(wallet.pendingBalance),
     availableBalance: Number(wallet.availableBalance),
     totalWithdrawn: Number(wallet.totalWithdrawn),
   };

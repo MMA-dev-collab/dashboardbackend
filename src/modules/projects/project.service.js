@@ -66,7 +66,7 @@ class ProjectService {
         netProfit,
         companyShare,
         partnerPool: netProfit - companyShare,
-        outstandingAmount: Number(project.totalValue) - totalPaid,
+        remainingBalance: Number(project.totalValue) - totalPaid,
       },
     };
   }

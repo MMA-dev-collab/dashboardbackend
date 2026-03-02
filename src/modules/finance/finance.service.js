@@ -51,8 +51,10 @@ class FinanceService {
         const earningAmount = Number(ps.amount) * paymentRatio;
         if (earningAmount <= 0) continue;
 
-        const wallet = await tx.wallet.findUnique({ where: { userId: ps.userId } });
-        if (!wallet) continue;
+        let wallet = await tx.wallet.findUnique({ where: { userId: ps.userId } });
+        if (!wallet) {
+          wallet = await tx.wallet.create({ data: { userId: ps.userId } });
+        }
 
         const newAvailable = Number(wallet.availableBalance) + earningAmount;
         const newEarned = Number(wallet.totalEarned) + earningAmount;

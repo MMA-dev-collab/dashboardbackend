@@ -37,12 +37,10 @@ class AuthService {
         }
       }
 
-      // Create wallet for partner
-      if (roles.includes('Partner')) {
-        await tx.wallet.create({
-          data: { userId: newUser.id },
-        });
-      }
+      // Create wallet for user (Any user can be a partner and needs a wallet for earnings)
+      await tx.wallet.create({
+        data: { userId: newUser.id },
+      });
 
       return newUser;
     });
