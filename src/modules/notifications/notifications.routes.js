@@ -3,12 +3,10 @@ const { authenticate } = require('../../middleware/auth');
 const prisma = require('../../config/database');
 const { success, paginated } = require('../../utils/response');
 const { parsePagination, buildPaginationMeta } = require('../../utils/pagination');
+const { addClient, removeClient, pushToUser } = require('../../utils/notify');
 
 const router = Router();
 router.use(authenticate);
-
-// Store active SSE connections
-const sseClients = new Set();
 
 // Setup SSE connection for instant push notifications
 router.get('/stream', (req, res) => {
@@ -18,24 +16,15 @@ router.get('/stream', (req, res) => {
   res.flushHeaders && res.flushHeaders();
 
   const client = { id: req.user.id, res };
-  sseClients.add(client);
+  addClient(client);
 
   req.on('close', () => {
-    sseClients.delete(client);
+    removeClient(client);
   });
 });
 
-// Function to immediately push a new notification to a specific user via SSE
-const notifyUser = (userId, notificationData) => {
-    sseClients.forEach(client => {
-        if (client.id === userId) {
-            client.res.write(`data: ${JSON.stringify(notificationData)}\n\n`);
-        }
-    });
-}
-// Attach helper to the global router so we can trigger it from other files easily
-// Usually you'd use a service / event emitter, but this works for simple SSE.
-router.notifyUser = notifyUser;
+// Expose pushToUser on the router for backward compat (if anything uses router.notifyUser)
+router.notifyUser = pushToUser;
 
 // List unread notifications
 router.get('/', async (req, res, next) => {
