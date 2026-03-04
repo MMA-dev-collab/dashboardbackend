@@ -71,19 +71,38 @@ class WithdrawalService {
   }
 
   /**
+   * Get a single withdrawal request by ID
+   */
+  async getRequestById(id) {
+    const request = await prisma.withdrawalRequest.findUnique({
+      where: { id },
+      include: {
+        user: { select: { id: true, firstName: true, lastName: true, email: true } },
+      },
+    });
+    if (!request) throw new NotFoundError('Withdrawal request not found');
+    return request;
+  }
+
+  /**
    * Approve a withdrawal request (Admin/Finance Approver).
    * An admin CANNOT approve their own withdrawal — must be another admin.
    * This is where the wallet deduction happens.
    * Notifies the requester AND other admins about the approval.
    */
-  async approveRequest(requestId, processedBy) {
+  async approveRequest(requestId, processedBy, receiptFile, verifiedAmount, transactionId) {
     const result = await prisma.$transaction(async (tx) => {
+      // Use locking if available, but for now standard findUnique
       const request = await tx.withdrawalRequest.findUnique({
         where: { id: requestId },
       });
 
       if (!request) throw new NotFoundError('Withdrawal request not found');
-      if (request.status !== 'PENDING') throw new BadRequestError('Request already processed');
+      
+      // Immutability Check: Ensure the request is still PENDING
+      if (request.status !== 'PENDING') {
+        throw new BadRequestError('Request already processed. Receipts cannot be added to finalized requests.');
+      }
 
       // Prevent self-approval
       if (request.userId === processedBy) {
@@ -121,13 +140,18 @@ class WithdrawalService {
         },
       });
 
-      // Update request
+      // Update request with receipt details and verification data
       const updated = await tx.withdrawalRequest.update({
         where: { id: requestId },
         data: {
           status: 'APPROVED',
           processedBy,
           processedAt: new Date(),
+          receiptPath: receiptFile.path,
+          receiptFileName: receiptFile.originalname,
+          receiptMimeType: receiptFile.mimetype,
+          verifiedAmount: verifiedAmount || null,
+          transactionId: transactionId || null,
         },
       });
 
@@ -143,13 +167,13 @@ class WithdrawalService {
     const requesterName = requester ? `${requester.firstName} ${requester.lastName}` : 'A team member';
     const fmtAmount = `$${Number(result.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
 
-    // Notify the requester that their withdrawal was approved
+    // Notify the requester that their withdrawal was approved, including receipt link
     await sendNotification({
       userId: result.userId,
       title: 'Withdrawal Approved ✅',
-      message: `Your withdrawal of ${fmtAmount} has been approved by ${approverName}. The funds have been deducted from your wallet.`,
+      message: `Your withdrawal of ${fmtAmount} has been approved by ${approverName}. The funds have been deducted from your wallet. You can download the transfer receipt from the payout page.`,
       type: 'withdrawal',
-      link: '/withdrawals',
+      link: '/withdrawals', // This directs them to the page where they can see & download the receipt
       actorId: processedBy,
     });
 

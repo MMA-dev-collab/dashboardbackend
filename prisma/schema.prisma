@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url= env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 // ============================================
@@ -12,44 +12,44 @@ datasource db {
 // ============================================
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  password      String
-  firstName     String   @map("first_name")
-  lastName      String   @map("last_name")
-  profilePicture String? @map("profile_picture") @db.LongText
-  jobTitle      String?  @map("job_title")
-  isActive      Boolean  @default(true) @map("is_active")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password       String
+  firstName      String   @map("first_name")
+  lastName       String   @map("last_name")
+  profilePicture String?  @map("profile_picture") @db.LongText
+  jobTitle       String?  @map("job_title")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   // Relations
-  userRoles          UserRole[]
-  refreshTokens      RefreshToken[]
-  projectPartners    ProjectPartner[]
-  wallet             Wallet?
-  withdrawalRequests WithdrawalRequest[]  @relation("WithdrawalRequester")
-  processedRequests  WithdrawalRequest[]  @relation("WithdrawalProcessor")
-  auditLogs          AuditLog[]
-  expenses           Expense[]
-  leads              Lead[]
-  proposals          Proposal[]
-  chatMessages       ChatMessage[]
-  documents          Document[]
-  knowledgeArticles  KnowledgeArticle[]
-  decisionLogs       DecisionLog[]
-  riskFlags          RiskFlag[]
-  assignedTasks      Task[]               @relation("TaskAssignee")
-  reportedTasks      Task[]               @relation("TaskReporter")
-  taskComments       TaskComment[]
-  taskAttachments    TaskAttachment[]
-  commentMentions    CommentMention[]
-  chatMentions       ChatMention[]
-  receivedMessages   ChatMessage[]        @relation("DirectMessages")
-  notifications      Notification[]       @relation("NotificationRecipient")
-  triggeredNotifications Notification[]    @relation("NotificationActor")
-  historyActions         TaskHistory[]     @relation("HistoryActor")
-  createdEvents          Event[]           @relation("EventCreator")
+  userRoles              UserRole[]
+  refreshTokens          RefreshToken[]
+  projectPartners        ProjectPartner[]
+  wallet                 Wallet?
+  withdrawalRequests     WithdrawalRequest[] @relation("WithdrawalRequester")
+  processedRequests      WithdrawalRequest[] @relation("WithdrawalProcessor")
+  auditLogs              AuditLog[]
+  expenses               Expense[]
+  leads                  Lead[]
+  proposals              Proposal[]
+  chatMessages           ChatMessage[]
+  documents              Document[]
+  knowledgeArticles      KnowledgeArticle[]
+  decisionLogs           DecisionLog[]
+  riskFlags              RiskFlag[]
+  assignedTasks          Task[]              @relation("TaskAssignee")
+  reportedTasks          Task[]              @relation("TaskReporter")
+  taskComments           TaskComment[]
+  taskAttachments        TaskAttachment[]
+  commentMentions        CommentMention[]
+  chatMentions           ChatMention[]
+  receivedMessages       ChatMessage[]       @relation("DirectMessages")
+  notifications          Notification[]      @relation("NotificationRecipient")
+  triggeredNotifications Notification[]      @relation("NotificationActor")
+  historyActions         TaskHistory[]       @relation("HistoryActor")
+  createdEvents          Event[]             @relation("EventCreator")
   eventAttendances       EventAttendee[]
   aiConversations        AiConversation[]
   aiThreads              AiThread[]
@@ -84,10 +84,10 @@ model UserRole {
 }
 
 model Permission {
-  id       String @id @default(uuid())
-  module   String
-  action   String
-  
+  id     String @id @default(uuid())
+  module String
+  action String
+
   rolePermissions RolePermission[]
 
   @@unique([module, action])
@@ -271,12 +271,12 @@ enum ExpenseCategory {
 // ============================================
 
 model Wallet {
-  id             String  @id @default(uuid())
-  userId         String  @unique @map("user_id")
-  totalEarned    Decimal @default(0) @map("total_earned") @db.Decimal(12, 2)
-  pendingBalance Decimal @default(0) @map("pending_balance") @db.Decimal(12, 2)
+  id               String  @id @default(uuid())
+  userId           String  @unique @map("user_id")
+  totalEarned      Decimal @default(0) @map("total_earned") @db.Decimal(12, 2)
+  pendingBalance   Decimal @default(0) @map("pending_balance") @db.Decimal(12, 2)
   availableBalance Decimal @default(0) @map("available_balance") @db.Decimal(12, 2)
-  totalWithdrawn Decimal @default(0) @map("total_withdrawn") @db.Decimal(12, 2)
+  totalWithdrawn   Decimal @default(0) @map("total_withdrawn") @db.Decimal(12, 2)
 
   user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions WalletTransaction[]
@@ -285,14 +285,14 @@ model Wallet {
 }
 
 model WalletTransaction {
-  id          String              @id @default(uuid())
-  walletId    String              @map("wallet_id")
-  type        WalletTransactionType
-  amount      Decimal             @db.Decimal(12, 2)
-  balanceAfter Decimal            @map("balance_after") @db.Decimal(12, 2)
-  description String              @db.Text
-  referenceId String?             @map("reference_id")
-  createdAt   DateTime            @default(now()) @map("created_at")
+  id           String                @id @default(uuid())
+  walletId     String                @map("wallet_id")
+  type         WalletTransactionType
+  amount       Decimal               @db.Decimal(12, 2)
+  balanceAfter Decimal               @map("balance_after") @db.Decimal(12, 2)
+  description  String                @db.Text
+  referenceId  String?               @map("reference_id")
+  createdAt    DateTime              @default(now()) @map("created_at")
 
   wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
 
@@ -310,16 +310,21 @@ enum WalletTransactionType {
 }
 
 model WithdrawalRequest {
-  id          String           @id @default(uuid())
-  userId      String           @map("user_id")
-  amount      Decimal          @db.Decimal(12, 2)
-  status      WithdrawalStatus @default(PENDING)
-  note        String?          @db.Text
-  processedBy String?          @map("processed_by")
-  processedAt DateTime?        @map("processed_at")
-  rejectReason String?         @map("reject_reason") @db.Text
-  createdAt   DateTime         @default(now()) @map("created_at")
-  updatedAt   DateTime         @updatedAt @map("updated_at")
+  id              String           @id @default(uuid())
+  userId          String           @map("user_id")
+  amount          Decimal          @db.Decimal(12, 2)
+  status          WithdrawalStatus @default(PENDING)
+  note            String?          @db.Text
+  receiptPath     String?          @map("receipt_path")
+  receiptFileName String?          @map("receipt_file_name")
+  receiptMimeType String?          @map("receipt_mime_type")
+  verifiedAmount  Decimal?         @map("verified_amount") @db.Decimal(12, 2)
+  transactionId   String?          @unique @map("transaction_id")
+  processedBy     String?          @map("processed_by")
+  processedAt     DateTime?        @map("processed_at")
+  rejectReason    String?          @map("reject_reason") @db.Text
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
 
   user      User  @relation("WithdrawalRequester", fields: [userId], references: [id])
   processor User? @relation("WithdrawalProcessor", fields: [processedBy], references: [id])
@@ -409,20 +414,20 @@ enum ProposalStatus {
 // ============================================
 
 model Subscription {
-  id           String             @id @default(uuid())
-  clientName   String             @map("client_name")
-  serviceName  String             @map("service_name")
-  projectId    String?            @map("project_id")
-  amount       Decimal            @db.Decimal(12, 2)
-  frequency    SubscriptionFreq   @default(MONTHLY)
-  status       SubscriptionStatus @default(ACTIVE)
-  startDate    DateTime           @map("start_date")
-  nextRenewal  DateTime           @map("next_renewal")
-  createdAt    DateTime           @default(now()) @map("created_at")
-  updatedAt    DateTime           @updatedAt @map("updated_at")
+  id          String             @id @default(uuid())
+  clientName  String             @map("client_name")
+  serviceName String             @map("service_name")
+  projectId   String?            @map("project_id")
+  amount      Decimal            @db.Decimal(12, 2)
+  frequency   SubscriptionFreq   @default(MONTHLY)
+  status      SubscriptionStatus @default(ACTIVE)
+  startDate   DateTime           @map("start_date")
+  nextRenewal DateTime           @map("next_renewal")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
 
-  project      Project?           @relation(fields: [projectId], references: [id], onDelete: SetNull)
-  invoices     SubscriptionInvoice[]
+  project  Project?              @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  invoices SubscriptionInvoice[]
 
   @@index([projectId])
   @@map("subscriptions")
@@ -442,16 +447,16 @@ enum SubscriptionStatus {
 }
 
 model SubscriptionInvoice {
-  id             String    @id @default(uuid())
-  subscriptionId String    @map("subscription_id")
-  amount         Decimal   @db.Decimal(12, 2)
-  issueDate      DateTime  @default(now()) @map("issue_date")
-  dueDate        DateTime  @map("due_date")
+  id             String        @id @default(uuid())
+  subscriptionId String        @map("subscription_id")
+  amount         Decimal       @db.Decimal(12, 2)
+  issueDate      DateTime      @default(now()) @map("issue_date")
+  dueDate        DateTime      @map("due_date")
   status         InvoiceStatus @default(UNPAID)
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
 
-  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 
   @@index([subscriptionId])
   @@map("subscription_invoices")
@@ -650,18 +655,18 @@ model CompanyConfig {
 // ============================================
 
 model Sprint {
-  id          String   @id @default(uuid())
-  projectId   String   @map("project_id")
-  name        String
-  goal        String?  @db.Text
-  status      SprintStatus @default(PLANNED)
-  startDate   DateTime? @map("start_date")
-  endDate     DateTime? @map("end_date")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id        String       @id @default(uuid())
+  projectId String       @map("project_id")
+  name      String
+  goal      String?      @db.Text
+  status    SprintStatus @default(PLANNED)
+  startDate DateTime?    @map("start_date")
+  endDate   DateTime?    @map("end_date")
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
 
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  tasks       Task[]
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks   Task[]
 
   @@index([projectId])
   @@index([status])
@@ -683,8 +688,8 @@ model BoardColumn {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  tasks     Task[]
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks   Task[]
 
   @@unique([projectId, name])
   @@index([projectId])
@@ -692,31 +697,31 @@ model BoardColumn {
 }
 
 model Task {
-  id          String   @id @default(uuid())
-  projectId   String   @map("project_id")
-  sprintId    String?  @map("sprint_id")
-  columnId    String   @map("column_id")
+  id          String       @id @default(uuid())
+  projectId   String       @map("project_id")
+  sprintId    String?      @map("sprint_id")
+  columnId    String       @map("column_id")
   title       String
-  description String?  @db.Text
-  type        TaskType @default(TASK)
+  description String?      @db.Text
+  type        TaskType     @default(TASK)
   priority    TaskPriority @default(MEDIUM)
-  storyPoints Int      @default(0) @map("story_points")
-  dueDate     DateTime? @map("due_date")
-  parentId    String?  @map("parent_id")
-  assigneeId  String?  @map("assignee_id")
-  reporterId  String   @map("reporter_id")
-  isArchived  Boolean  @default(false) @map("is_archived")
-  version     Int      @default(1)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  storyPoints Int          @default(0) @map("story_points")
+  dueDate     DateTime?    @map("due_date")
+  parentId    String?      @map("parent_id")
+  assigneeId  String?      @map("assignee_id")
+  reporterId  String       @map("reporter_id")
+  isArchived  Boolean      @default(false) @map("is_archived")
+  version     Int          @default(1)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
 
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  sprint      Sprint?  @relation(fields: [sprintId], references: [id], onDelete: SetNull)
-  column      BoardColumn @relation(fields: [columnId], references: [id])
-  parent      Task?    @relation("SubTasks", fields: [parentId], references: [id], onDelete: Cascade)
-  subTasks    Task[]   @relation("SubTasks")
-  assignee    User?    @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
-  reporter    User     @relation("TaskReporter", fields: [reporterId], references: [id])
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sprint      Sprint?          @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  column      BoardColumn      @relation(fields: [columnId], references: [id])
+  parent      Task?            @relation("SubTasks", fields: [parentId], references: [id], onDelete: Cascade)
+  subTasks    Task[]           @relation("SubTasks")
+  assignee    User?            @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  reporter    User             @relation("TaskReporter", fields: [reporterId], references: [id])
   comments    TaskComment[]
   history     TaskHistory[]
   attachments TaskAttachment[]
@@ -751,41 +756,41 @@ model TaskComment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  author    User     @relation(fields: [authorId], references: [id])
-  mentions  CommentMention[]
+  task     Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author   User             @relation(fields: [authorId], references: [id])
+  mentions CommentMention[]
 
   @@index([taskId])
   @@map("task_comments")
 }
 
 model TaskHistory {
-  id          String   @id @default(uuid())
-  taskId      String   @map("task_id")
-  fromColumnId String? @map("from_column_id")
-  toColumnId  String?  @map("to_column_id")
-  fromStatus  String?  @map("from_status")
-  toStatus    String?  @map("to_status")
-  movedBy     String   @map("moved_by")
-  movedAt     DateTime @default(now()) @map("moved_at")
+  id           String   @id @default(uuid())
+  taskId       String   @map("task_id")
+  fromColumnId String?  @map("from_column_id")
+  toColumnId   String?  @map("to_column_id")
+  fromStatus   String?  @map("from_status")
+  toStatus     String?  @map("to_status")
+  movedBy      String   @map("moved_by")
+  movedAt      DateTime @default(now()) @map("moved_at")
 
-  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  user        User     @relation("HistoryActor", fields: [movedBy], references: [id])
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User @relation("HistoryActor", fields: [movedBy], references: [id])
 
   @@index([taskId])
   @@map("task_history")
 }
 
 model TaskAttachment {
-  id        String   @id @default(uuid())
-  taskId    String   @map("task_id")
-  url       String   @db.Text
-  fileName  String   @map("file_name")
+  id         String   @id @default(uuid())
+  taskId     String   @map("task_id")
+  url        String   @db.Text
+  fileName   String   @map("file_name")
   uploadedBy String   @map("uploaded_by")
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt  DateTime @default(now()) @map("created_at")
 
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  uploader  User     @relation(fields: [uploadedBy], references: [id])
+  task     Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  uploader User @relation(fields: [uploadedBy], references: [id])
 
   @@index([taskId])
   @@map("task_attachments")
@@ -797,8 +802,8 @@ model CommentMention {
   userId    String   @map("user_id")
   createdAt DateTime @default(now()) @map("created_at")
 
-  comment   TaskComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment TaskComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([commentId, userId])
   @@map("comment_mentions")
@@ -833,22 +838,22 @@ model Notification {
 // ============================================
 
 model Event {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
-  description String?   @db.Text
-  startDate   DateTime  @map("start_date")
-  endDate     DateTime  @map("end_date")
-  allDay      Boolean   @default(false) @map("all_day")
-  color       String?   // Hex color for calendar rendering
-  type        String    @default("meeting") // meeting, deadline, milestone
-  projectId   String?   @map("project_id")
-  createdBy   String    @map("created_by")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  description String?  @db.Text
+  startDate   DateTime @map("start_date")
+  endDate     DateTime @map("end_date")
+  allDay      Boolean  @default(false) @map("all_day")
+  color       String? // Hex color for calendar rendering
+  type        String   @default("meeting") // meeting, deadline, milestone
+  projectId   String?  @map("project_id")
+  createdBy   String   @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
-  project     Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
-  creator     User      @relation("EventCreator", fields: [createdBy], references: [id])
-  attendees   EventAttendee[]
+  project   Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  creator   User            @relation("EventCreator", fields: [createdBy], references: [id])
+  attendees EventAttendee[]
 
   @@index([startDate, endDate])
   @@index([createdBy])
@@ -856,12 +861,12 @@ model Event {
 }
 
 model EventAttendee {
-  id       String @id @default(uuid())
-  eventId  String @map("event_id")
-  userId   String @map("user_id")
+  id      String @id @default(uuid())
+  eventId String @map("event_id")
+  userId  String @map("user_id")
 
-  event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([eventId, userId])
   @@map("event_attendees")
@@ -874,7 +879,7 @@ model EventAttendee {
 model AiThread {
   id        String   @id @default(uuid())
   userId    String   @map("user_id")
-  title     String?  // Optional title, can be first message snippet
+  title     String? // Optional title, can be first message snippet
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -888,8 +893,8 @@ model AiThread {
 model AiConversation {
   id        String   @id @default(uuid())
   userId    String   @map("user_id")
-  threadId  String?  @map("thread_id") 
-  role      String   // 'user', 'assistant', 'tool'
+  threadId  String?  @map("thread_id")
+  role      String // 'user', 'assistant', 'tool'
   content   String   @db.Text
   metadata  String?  @db.Text // JSON: provider, model, tools called, latency
   createdAt DateTime @default(now()) @map("created_at")
@@ -903,15 +908,15 @@ model AiConversation {
 }
 
 model AiRequestLog {
-  id         String   @id @default(uuid())
-  userId     String   @map("user_id")
-  provider   String   // 'openrouter'
-  model      String   // model identifier
-  toolsUsed  String?  @db.Text // JSON array of tool names
-  latencyMs  Int      @map("latency_ms")
-  success    Boolean
-  error      String?  @db.Text
-  createdAt  DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  provider  String // 'openrouter'
+  model     String // model identifier
+  toolsUsed String?  @db.Text // JSON array of tool names
+  latencyMs Int      @map("latency_ms")
+  success   Boolean
+  error     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
