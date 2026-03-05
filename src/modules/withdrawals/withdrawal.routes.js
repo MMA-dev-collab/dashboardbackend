@@ -76,11 +76,24 @@ router.post('/:id/approve', requireRole('Admin', 'Finance Approver'), upload.sin
     const request = await withdrawalService.getRequestById(req.params.id);
     const expectedAmount = Number(request.amount);
 
-    // Run AI verification on the receipt
+    // Look up names for n8n verification context
+    // Sender = the admin approving (they are sending/transferring the money)
+    // Receiver = the requester (they are receiving the payout)
+    const [approver, requester] = await Promise.all([
+      prisma.user.findUnique({ where: { id: req.user.id }, select: { firstName: true, lastName: true, paymentUsername: true } }),
+      prisma.user.findUnique({ where: { id: request.userId }, select: { firstName: true, lastName: true, paymentUsername: true } }),
+    ]);
+    // Use paymentUsername if set (their actual payment app name), otherwise fall back to dashboard name
+    const senderName = approver?.paymentUsername || (approver ? `${approver.firstName} ${approver.lastName}` : '');
+    const receiverName = requester?.paymentUsername || (requester ? `${requester.firstName} ${requester.lastName}` : '');
+
+    // Run AI verification on the receipt via n8n webhook
     const verification = await receiptVerifier.verifyReceipt(
       req.file.path,
       req.file.mimetype,
-      expectedAmount
+      expectedAmount,
+      senderName,
+      receiverName
     );
 
     // Check for verification failure

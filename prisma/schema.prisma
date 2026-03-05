@@ -20,6 +20,7 @@ model User {
   profilePicture String?  @map("profile_picture") @db.LongText
   jobTitle       String?  @map("job_title")
   isActive       Boolean  @default(true) @map("is_active")
+  paymentUsername String?  @map("payment_username")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 

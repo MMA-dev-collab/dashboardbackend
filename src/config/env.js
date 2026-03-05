@@ -20,6 +20,8 @@ const env = {
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE, 10) || 10 * 1024 * 1024,
 
   OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || '',
+
+  N8N_WEBHOOK_URL: process.env.N8N_WEBHOOK_URL || 'https://manaatef-n8n.hf.space/webhook/analyze',
 };
 
 // Validate required env vars

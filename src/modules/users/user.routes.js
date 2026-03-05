@@ -45,7 +45,7 @@ router.get('/', async (req, res, next) => {
 // Self-update profile (any authenticated user)
 router.patch('/me/profile', async (req, res, next) => {
   try {
-    const { firstName, lastName, profilePicture, jobTitle } = req.body;
+    const { firstName, lastName, profilePicture, jobTitle, paymentUsername } = req.body;
     const updated = await prisma.user.update({
       where: { id: req.user.id },
       data: {
@@ -53,8 +53,9 @@ router.patch('/me/profile', async (req, res, next) => {
         ...(lastName && { lastName }),
         ...(profilePicture !== undefined && { profilePicture }),
         ...(jobTitle !== undefined && { jobTitle }),
+        ...(paymentUsername !== undefined && { paymentUsername: paymentUsername || null }),
       },
-      select: { id: true, email: true, firstName: true, lastName: true, profilePicture: true, jobTitle: true },
+      select: { id: true, email: true, firstName: true, lastName: true, profilePicture: true, jobTitle: true, paymentUsername: true },
     });
     success(res, updated, 'Profile updated');
   } catch (err) { next(err); }
@@ -100,7 +101,7 @@ router.get('/:id/profile', async (req, res, next) => {
         where: { id: userId },
         select: {
           id: true, email: true, firstName: true, lastName: true,
-          profilePicture: true, jobTitle: true,
+          profilePicture: true, jobTitle: true, paymentUsername: true,
           isActive: true, createdAt: true,
           userRoles: { select: { role: { select: { name: true } } } },
         },
