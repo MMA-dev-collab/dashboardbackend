@@ -116,7 +116,25 @@ async function verifyReceipt(fileUrl, mimeType, expectedAmount, senderName, rece
     const expected = Number(expectedAmount);
     const amountMatches = checks.amount_match !== undefined ? checks.amount_match : (Math.abs(extractedAmount - expected) <= expected * 0.02);
 
-    // Derive actual success from the checks — don't rely only on n8n's verification_status string
+    // AI sometimes returns strings like "not found" or "none" when it fails to extract a name. 
+    // We must treat these as failures rather than comparing them to the expected names.
+    const isNotFound = (str) => {
+      if (!str || str.trim() === '') return true;
+      const lower = str.toLowerCase().trim();
+      return lower === 'not found' || lower === 'none' || lower === 'n/a' || lower === 'unknown';
+    };
+
+    if (isNotFound(extracted.sender_username)) {
+      checks.sender_match = false;
+    }
+    if (isNotFound(extracted.receiver_username)) {
+      checks.receiver_match = false;
+    }
+    if (amountMatches === false) {
+      checks.amount_match = false;
+    }
+
+    // Derive actual success from the corrected checks
     const allChecksPassed = checks.sender_match !== false
       && checks.receiver_match !== false
       && checks.amount_match !== false;
@@ -138,10 +156,10 @@ async function verifyReceipt(fileUrl, mimeType, expectedAmount, senderName, rece
     if (!allChecksPassed) {
       const mismatches = [];
       if (checks.sender_match === false) {
-        mismatches.push(`Sender mismatch: receipt shows "${extracted.sender_username || 'unknown'}" but expected "${resData.expected?.sender_name || senderName}"`);
+        mismatches.push(`Sender mismatch: receipt shows "${extracted.sender_username || 'not found'}" but expected "${resData.expected?.sender_name || senderName}"`);
       }
       if (checks.receiver_match === false) {
-        mismatches.push(`Receiver mismatch: receipt shows "${extracted.receiver_username || 'unknown'}" but expected "${resData.expected?.receiver_name || receiverName}"`);
+        mismatches.push(`Receiver mismatch: receipt shows "${extracted.receiver_username || 'not found'}" but expected "${resData.expected?.receiver_name || receiverName}"`);
       }
       if (checks.amount_match === false) {
         mismatches.push(`Amount mismatch: receipt shows ${extractedAmount} but withdrawal is for ${expected}`);
