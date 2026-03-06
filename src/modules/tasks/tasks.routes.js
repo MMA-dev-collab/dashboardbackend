@@ -3,32 +3,19 @@ const tasksController = require('./tasks.controller');
 const { authenticate } = require('../../middleware/auth');
 const { requireRole } = require('../../middleware/rbac');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const { createCloudinaryStorage } = require('../../config/cloudinary');
 
-const router = Router({ mergeParams: true }); // Allows accessing /projects/:projectId/tasks
+const router = Router({ mergeParams: true });
 
-// Configure multer for local file storage (swap to S3 later)
-const uploadsDir = path.join(__dirname, '../../../uploads/tasks');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
-});
+// Configure multer with Cloudinary storage
+const storage = createCloudinaryStorage('egycodera/tasks', [
+  'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+  'png', 'jpg', 'jpeg', 'gif', 'zip', 'txt', 'csv', 'md',
+]);
 
 const upload = multer({
   storage,
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB limit for task attachments
-  fileFilter: (req, file, cb) => {
-    const allowed = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.png', '.jpg', '.jpeg', '.gif', '.zip', '.txt', '.csv', '.md'];
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (allowed.includes(ext)) cb(null, true);
-    else cb(new Error('File type not allowed'));
-  },
 });
 
 router.use(authenticate);

@@ -5,34 +5,21 @@ const prisma = require('../../config/database');
 const { success, created, paginated } = require('../../utils/response');
 const { parsePagination, buildPaginationMeta } = require('../../utils/pagination');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const { cloudinary, createCloudinaryStorage } = require('../../config/cloudinary');
 
 const router = Router();
 router.use(authenticate);
 router.use(auditLog('documents'));
 
-// Configure multer for local file storage (swap to S3 later)
-const uploadsDir = path.join(__dirname, '../../../uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
-});
+// Configure multer with Cloudinary storage
+const storage = createCloudinaryStorage('egycodera/documents', [
+  'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+  'png', 'jpg', 'jpeg', 'gif', 'zip', 'txt', 'csv', 'md',
+]);
 
 const upload = multer({
   storage,
   limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
-  fileFilter: (req, file, cb) => {
-    const allowed = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.png', '.jpg', '.jpeg', '.gif', '.zip', '.txt', '.csv', '.md'];
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (allowed.includes(ext)) cb(null, true);
-    else cb(new Error('File type not allowed'));
-  },
 });
 
 // List documents
@@ -69,7 +56,7 @@ router.post('/', upload.single('file'), async (req, res, next) => {
     const document = await prisma.document.create({
       data: {
         fileName: req.file.originalname,
-        filePath: req.file.path,
+        filePath: req.file.path,       // Cloudinary URL
         fileSize: req.file.size,
         mimeType: req.file.mimetype,
         category: req.body.category || 'general',
@@ -86,13 +73,13 @@ router.post('/', upload.single('file'), async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// Download document
+// Download document — redirect to Cloudinary URL
 router.get('/:id/download', async (req, res, next) => {
   try {
     const doc = await prisma.document.findUnique({ where: { id: req.params.id } });
     if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
-    if (!fs.existsSync(doc.filePath)) return res.status(404).json({ success: false, message: 'File missing from server' });
-    res.download(doc.filePath, doc.fileName);
+    if (!doc.filePath) return res.status(404).json({ success: false, message: 'File not available' });
+    res.redirect(doc.filePath);
   } catch (err) { next(err); }
 });
 
@@ -102,8 +89,21 @@ router.delete('/:id', async (req, res, next) => {
     const doc = await prisma.document.findUnique({ where: { id: req.params.id } });
     if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
 
-    // Remove physical file
-    if (fs.existsSync(doc.filePath)) fs.unlinkSync(doc.filePath);
+    // Remove from Cloudinary if possible
+    if (doc.filePath) {
+      try {
+        const parts = doc.filePath.split('/');
+        const uploadIdx = parts.indexOf('upload');
+        if (uploadIdx !== -1) {
+          const publicIdWithExt = parts.slice(uploadIdx + 2).join('/');
+          const publicId = publicIdWithExt.replace(/\.[^/.]+$/, '');
+          await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
+        }
+      } catch (cloudErr) {
+        console.warn('Could not delete file from Cloudinary:', cloudErr.message);
+      }
+    }
+
     await prisma.document.delete({ where: { id: req.params.id } });
     success(res, null, 'Document deleted');
   } catch (err) { next(err); }

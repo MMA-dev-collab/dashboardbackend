@@ -19,6 +19,10 @@ const env = {
   UPLOAD_DIR: process.env.UPLOAD_DIR || './uploads',
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE, 10) || 10 * 1024 * 1024,
 
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+
   OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || '',
 
   N8N_WEBHOOK_URL: process.env.N8N_WEBHOOK_URL || 'https://manaatef-n8n.hf.space/webhook/analyze',

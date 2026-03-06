@@ -73,11 +73,10 @@ class TasksController {
 
   async downloadAttachment(req, res, next) {
     try {
-      const fs = require('fs');
       const attachment = await tasksService.getAttachment(req.params.attachmentId);
       if (!attachment) return res.status(404).json({ success: false, message: 'Attachment not found' });
-      if (!fs.existsSync(attachment.url)) return res.status(404).json({ success: false, message: 'File missing' });
-      res.download(attachment.url, attachment.fileName);
+      if (!attachment.url) return res.status(404).json({ success: false, message: 'File not available' });
+      res.redirect(attachment.url);
     } catch (err) { next(err); }
   }
 }

@@ -13,11 +13,17 @@ const env = require('../../config/env');
 const DEFAULT_INSTRUCTIONS = 'Extract ONLY what is literally visible. sender_username = text before @instapay in From section (lowercase). receiver_username = text before @instapay in To section (lowercase). amount = the large number shown. Return ONLY JSON: {"sender_username": "", "receiver_username": "", "amount": 0}';
 
 /**
- * Convert a file on disk to a base64 data-URL string.
- * e.g. "data:image/png;base64,iVBORw0KGgo..."
+ * Download a file from a URL and convert it to a base64 data-URL string.
+ * @param {string} url - The Cloudinary URL
+ * @param {string} mimeType - The MIME type
  */
-function fileToBase64DataUrl(filePath, mimeType) {
-  const buffer = fs.readFileSync(filePath);
+async function fileToBase64DataUrl(url, mimeType) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image from URL: ${response.statusText}`);
+  }
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
   const base64 = buffer.toString('base64');
   return `data:${mimeType};base64,${base64}`;
 }
@@ -26,17 +32,17 @@ function fileToBase64DataUrl(filePath, mimeType) {
  * Verify a receipt file against an expected withdrawal amount
  * by calling the n8n webhook.
  * 
- * @param {string} filePath       - Absolute path to the uploaded file
+ * @param {string} fileUrl        - Cloudinary URL to the uploaded file
  * @param {string} mimeType       - MIME type of the file (image/png, image/jpeg, etc.)
  * @param {number} expectedAmount - The withdrawal amount to verify against
  * @param {string} senderName     - Name of the person who sent the transfer (the approving admin)
  * @param {string} receiverName   - Name of the person receiving the payout (the requester)
  * @returns {Object} Verification result
  */
-async function verifyReceipt(filePath, mimeType, expectedAmount, senderName, receiverName) {
+async function verifyReceipt(fileUrl, mimeType, expectedAmount, senderName, receiverName) {
   try {
     // Step 1: Convert image to base64 data URL
-    const imageBase64 = fileToBase64DataUrl(filePath, mimeType);
+    const imageBase64 = await fileToBase64DataUrl(fileUrl, mimeType);
 
     // Step 2: Build payload matching the n8n webhook schema
     const payload = {
