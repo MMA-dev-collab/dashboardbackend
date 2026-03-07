@@ -5,7 +5,7 @@ const prisma = require('../../config/database');
 const { success, created, paginated } = require('../../utils/response');
 const { parsePagination, buildPaginationMeta } = require('../../utils/pagination');
 const multer = require('multer');
-const { cloudinary, createCloudinaryStorage, getSignedUrl } = require('../../config/cloudinary');
+const { cloudinary, createCloudinaryStorage, getSignedUrl, getMimeFromExt } = require('../../config/cloudinary');
 
 const router = Router();
 router.use(authenticate);
@@ -80,28 +80,14 @@ router.get('/:id/download', async (req, res, next) => {
     if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
     if (!doc.filePath) return res.status(404).json({ success: false, message: 'File not available' });
 
-    const originalUrl = doc.filePath;
-    const signedUrl = getSignedUrl(originalUrl);
-
-    // ADD THIS TEMPORARILY
-    console.log('=== CLOUDINARY DEBUG ===');
-    console.log('Original URL:', originalUrl);
-    console.log('Signed URL:', signedUrl);
-    console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
-
-    const cloudResponse = await fetch(signedUrl);
-    console.log('Cloudinary response status:', cloudResponse.status);
-    console.log('Cloudinary response headers:', Object.fromEntries(cloudResponse.headers));
-    // END DEBUG
-
-    if (!cloudResponse.ok) {
-      const errorText = await cloudResponse.text();
-      console.error('[Download] Error body:', errorText.substring(0, 500));
-      return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
-    }
+    const fetchUrl = getSignedUrl(doc.filePath);
+    const cloudResponse = await fetch(fetchUrl);
+    if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
 
     const buffer = Buffer.from(await cloudResponse.arrayBuffer());
-    res.set('Content-Type', doc.mimeType || cloudResponse.headers.get('content-type') || 'application/octet-stream');
+    const fileExt = doc.fileName.split('.').pop().toLowerCase();
+    const mimeType = doc.mimeType || getMimeFromExt(fileExt) || 'application/octet-stream';
+    res.set('Content-Type', mimeType);
     res.set('Content-Disposition', `attachment; filename="${encodeURIComponent(doc.fileName)}"`);
     res.set('Content-Length', buffer.length);
     res.send(buffer);

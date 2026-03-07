@@ -18,11 +18,12 @@ cloudinary.config({
 function createCloudinaryStorage(folder, allowedFormats) {
   return new CloudinaryStorage({
     cloudinary,
-    params: {
+    params: async (req, file) => ({
       folder,
       allowed_formats: allowedFormats,
-      resource_type: 'auto', // auto-detect image vs raw (pdf, docx, etc.)
-    },
+      // Force PDFs and docs to 'raw', everything else auto
+      resource_type: file.mimetype === 'application/pdf' ? 'raw' : 'auto',
+    }),
   });
 }
 
@@ -45,8 +46,9 @@ function getSignedUrl(originalUrl) {
     const startIdx = /^v\d+$/.test(afterUpload[0]) ? 1 : 0;
     const publicIdWithExt = afterUpload.slice(startIdx).join('/');
 
-    // Determine resource type from the URL path (image, raw, or video)
-    const resourceType = pathParts[uploadIndex - 1] || 'image';
+    // Force PDFs to use 'raw' regardless of what the stored URL says
+    const isPdf = publicIdWithExt.toLowerCase().endsWith('.pdf');
+    const resourceType = isPdf ? 'raw' : (pathParts[uploadIndex - 1] || 'image');
 
     return cloudinary.url(publicIdWithExt, {
       sign_url: true,
@@ -59,4 +61,36 @@ function getSignedUrl(originalUrl) {
   }
 }
 
-module.exports = { cloudinary, createCloudinaryStorage, getSignedUrl };
+/**
+ * Get MIME type from a file extension.
+ * Cloudinary returns application/octet-stream for raw files,
+ * so we need to determine the correct MIME type from the extension.
+ * @param {string} ext - File extension without dot (e.g. 'pdf', 'jpg')
+ * @returns {string|null} MIME type or null if unknown
+ */
+function getMimeFromExt(ext) {
+  const map = {
+    pdf: 'application/pdf',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    svg: 'image/svg+xml',
+    doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ppt: 'application/vnd.ms-powerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    csv: 'text/csv',
+    txt: 'text/plain',
+    md: 'text/markdown',
+    zip: 'application/zip',
+    mp4: 'video/mp4',
+    mp3: 'audio/mpeg',
+  };
+  return map[ext] || null;
+}
+
+module.exports = { cloudinary, createCloudinaryStorage, getSignedUrl, getMimeFromExt };

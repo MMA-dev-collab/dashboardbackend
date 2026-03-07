@@ -18,22 +18,11 @@ const DEFAULT_INSTRUCTIONS = 'Extract ONLY what is literally visible. sender_use
  * @param {string} url - The Cloudinary URL
  * @param {string} mimeType - The MIME type
  */
-async function fileToBase64DataUrl(originalUrl, mimeType) {
-  const signedUrl = getSignedUrl(originalUrl);
-
-  // ADD THIS TEMPORARILY
-  console.log('=== CLOUDINARY DEBUG ===');
-  console.log('Original URL:', originalUrl);
-  console.log('Signed URL:', signedUrl);
-  console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
-
+async function fileToBase64DataUrl(fileUrl, mimeType) {
+  const signedUrl = getSignedUrl(fileUrl);
   const response = await fetch(signedUrl);
-  console.log('Cloudinary response status:', response.status);
-  console.log('Cloudinary response headers:', Object.fromEntries(response.headers));
-  // END DEBUG
-
   if (!response.ok) {
-    throw new Error(`Cloudinary returned ${response.status}`);
+    throw new Error(`Failed to fetch image from URL: ${response.status} ${response.statusText}`);
   }
   const arrayBuffer = await response.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);

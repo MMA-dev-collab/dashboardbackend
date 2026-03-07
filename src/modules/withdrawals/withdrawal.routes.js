@@ -8,7 +8,7 @@ const { parsePagination, buildPaginationMeta } = require('../../utils/pagination
 const receiptVerifier = require('../../services/ai/receipt-verifier.service');
 const prisma = require('../../config/database');
 const multer = require('multer');
-const { createCloudinaryStorage, getSignedUrl } = require('../../config/cloudinary');
+const { createCloudinaryStorage, getSignedUrl, getMimeFromExt } = require('../../config/cloudinary');
 
 const router = Router();
 router.use(authenticate);
@@ -149,26 +149,17 @@ router.get('/:id/receipt', async (req, res, next) => {
     }
 
     // Proxy the file from Cloudinary to avoid CORS issues
-    const originalUrl = request.receiptPath;
-    const signedUrl = getSignedUrl(originalUrl);
-
-    // ADD THIS TEMPORARILY
-    console.log('=== CLOUDINARY DEBUG ===');
-    console.log('Original URL:', originalUrl);
-    console.log('Signed URL:', signedUrl);
-    console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
-
-    const cloudResponse = await fetch(signedUrl);
-    console.log('Cloudinary response status:', cloudResponse.status);
-    console.log('Cloudinary response headers:', Object.fromEntries(cloudResponse.headers));
-    // END DEBUG
-
+    const fetchUrl = getSignedUrl(request.receiptPath);
+    const cloudResponse = await fetch(fetchUrl);
     if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch receipt from storage' });
 
     const buffer = Buffer.from(await cloudResponse.arrayBuffer());
-    const contentType = cloudResponse.headers.get('content-type') || 'application/octet-stream';
-    res.set('Content-Type', contentType);
-    res.set('Content-Disposition', `attachment; filename="receipt-${req.params.id}${contentType.includes('pdf') ? '.pdf' : '.jpg'}"`);
+    // Determine file extension from the stored URL
+    const urlPath = request.receiptPath.split('?')[0];
+    const fileExt = urlPath.split('.').pop().toLowerCase();
+    const mimeType = getMimeFromExt(fileExt) || 'application/octet-stream';
+    res.set('Content-Type', mimeType);
+    res.set('Content-Disposition', `attachment; filename="receipt-${req.params.id}.${fileExt}"`);
     res.set('Content-Length', buffer.length);
     res.send(buffer);
   } catch (err) { next(err); }

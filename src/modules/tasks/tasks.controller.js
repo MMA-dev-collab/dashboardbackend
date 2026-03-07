@@ -1,6 +1,6 @@
 const tasksService = require('./tasks.service');
 const { success, created } = require('../../utils/response');
-const { getSignedUrl } = require('../../config/cloudinary');
+const { getSignedUrl, getMimeFromExt } = require('../../config/cloudinary');
 
 class TasksController {
   async listTasks(req, res, next) {
@@ -79,24 +79,14 @@ class TasksController {
       if (!attachment.url) return res.status(404).json({ success: false, message: 'File not available' });
 
       // Proxy the file from Cloudinary to avoid CORS issues
-      const originalUrl = attachment.url;
-      const signedUrl = getSignedUrl(originalUrl);
-
-      // ADD THIS TEMPORARILY
-      console.log('=== CLOUDINARY DEBUG ===');
-      console.log('Original URL:', originalUrl);
-      console.log('Signed URL:', signedUrl);
-      console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
-
-      const cloudResponse = await fetch(signedUrl);
-      console.log('Cloudinary response status:', cloudResponse.status);
-      console.log('Cloudinary response headers:', Object.fromEntries(cloudResponse.headers));
-      // END DEBUG
-
+      const fetchUrl = getSignedUrl(attachment.url);
+      const cloudResponse = await fetch(fetchUrl);
       if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
 
       const buffer = Buffer.from(await cloudResponse.arrayBuffer());
-      res.set('Content-Type', cloudResponse.headers.get('content-type') || 'application/octet-stream');
+      const fileExt = attachment.fileName.split('.').pop().toLowerCase();
+      const mimeType = getMimeFromExt(fileExt) || 'application/octet-stream';
+      res.set('Content-Type', mimeType);
       res.set('Content-Disposition', `attachment; filename="${encodeURIComponent(attachment.fileName)}"`);
       res.set('Content-Length', buffer.length);
       res.send(buffer);
