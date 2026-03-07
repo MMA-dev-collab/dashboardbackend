@@ -1,5 +1,6 @@
 const tasksService = require('./tasks.service');
 const { success, created } = require('../../utils/response');
+const { getSignedUrl } = require('../../config/cloudinary');
 
 class TasksController {
   async listTasks(req, res, next) {
@@ -76,7 +77,17 @@ class TasksController {
       const attachment = await tasksService.getAttachment(req.params.attachmentId);
       if (!attachment) return res.status(404).json({ success: false, message: 'Attachment not found' });
       if (!attachment.url) return res.status(404).json({ success: false, message: 'File not available' });
-      res.redirect(attachment.url);
+
+      // Proxy the file from Cloudinary to avoid CORS issues
+      const fetchUrl = getSignedUrl(attachment.url);
+      const cloudResponse = await fetch(fetchUrl);
+      if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
+
+      const buffer = Buffer.from(await cloudResponse.arrayBuffer());
+      res.set('Content-Type', cloudResponse.headers.get('content-type') || 'application/octet-stream');
+      res.set('Content-Disposition', `attachment; filename="${encodeURIComponent(attachment.fileName)}"`);
+      res.set('Content-Length', buffer.length);
+      res.send(buffer);
     } catch (err) { next(err); }
   }
 }

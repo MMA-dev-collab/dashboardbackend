@@ -5,7 +5,7 @@ const prisma = require('../../config/database');
 const { success, created, paginated } = require('../../utils/response');
 const { parsePagination, buildPaginationMeta } = require('../../utils/pagination');
 const multer = require('multer');
-const { cloudinary, createCloudinaryStorage } = require('../../config/cloudinary');
+const { cloudinary, createCloudinaryStorage, getSignedUrl } = require('../../config/cloudinary');
 
 const router = Router();
 router.use(authenticate);
@@ -73,13 +73,22 @@ router.post('/', upload.single('file'), async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// Download document — redirect to Cloudinary URL
+// Download document — proxy from Cloudinary to avoid CORS issues
 router.get('/:id/download', async (req, res, next) => {
   try {
     const doc = await prisma.document.findUnique({ where: { id: req.params.id } });
     if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
     if (!doc.filePath) return res.status(404).json({ success: false, message: 'File not available' });
-    res.redirect(doc.filePath);
+
+    const fetchUrl = getSignedUrl(doc.filePath);
+    const cloudResponse = await fetch(fetchUrl);
+    if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
+
+    const buffer = Buffer.from(await cloudResponse.arrayBuffer());
+    res.set('Content-Type', doc.mimeType || cloudResponse.headers.get('content-type') || 'application/octet-stream');
+    res.set('Content-Disposition', `attachment; filename="${encodeURIComponent(doc.fileName)}"`);
+    res.set('Content-Length', buffer.length);
+    res.send(buffer);
   } catch (err) { next(err); }
 });
 

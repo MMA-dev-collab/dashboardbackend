@@ -1,0 +1,8 @@
+Testing URL: https://res.cloudinary.com/dugsncbw4/image/upload/egycodera/documents/fo2pci78b5jwtqeqimj1.pdf
+  Status: 401
+Testing URL: https://res.cloudinary.com/dugsncbw4/raw/upload/egycodera/documents/fo2pci78b5jwtqeqimj1.pdf
+  Status: 404
+Testing URL: https://res.cloudinary.com/dugsncbw4/image/upload/egycodera/documents/fo2pci78b5jwtqeqimj1
+  Status: 401
+Testing URL: https://res.cloudinary.com/dugsncbw4/raw/upload/egycodera/documents/fo2pci78b5jwtqeqimj1
+  Status: 404

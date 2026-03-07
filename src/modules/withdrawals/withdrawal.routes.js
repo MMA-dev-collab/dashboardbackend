@@ -8,7 +8,7 @@ const { parsePagination, buildPaginationMeta } = require('../../utils/pagination
 const receiptVerifier = require('../../services/ai/receipt-verifier.service');
 const prisma = require('../../config/database');
 const multer = require('multer');
-const { createCloudinaryStorage } = require('../../config/cloudinary');
+const { createCloudinaryStorage, getSignedUrl } = require('../../config/cloudinary');
 
 const router = Router();
 router.use(authenticate);
@@ -148,8 +148,17 @@ router.get('/:id/receipt', async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Receipt not found' });
     }
 
-    // Redirect to Cloudinary URL
-    res.redirect(request.receiptPath);
+    // Proxy the file from Cloudinary to avoid CORS issues
+    const fetchUrl = getSignedUrl(request.receiptPath);
+    const cloudResponse = await fetch(fetchUrl);
+    if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch receipt from storage' });
+
+    const buffer = Buffer.from(await cloudResponse.arrayBuffer());
+    const contentType = cloudResponse.headers.get('content-type') || 'application/octet-stream';
+    res.set('Content-Type', contentType);
+    res.set('Content-Disposition', `attachment; filename="receipt-${req.params.id}${contentType.includes('pdf') ? '.pdf' : '.jpg'}"`);
+    res.set('Content-Length', buffer.length);
+    res.send(buffer);
   } catch (err) { next(err); }
 });
 

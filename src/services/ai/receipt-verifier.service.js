@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const env = require('../../config/env');
+const { getSignedUrl } = require('../../config/cloudinary');
 
 // Default instructions for the n8n AI agent
 const DEFAULT_INSTRUCTIONS = 'Extract ONLY what is literally visible. sender_username = text before @instapay in From section (lowercase). receiver_username = text before @instapay in To section (lowercase). amount = the large number shown. Return ONLY JSON: {"sender_username": "", "receiver_username": "", "amount": 0}';
@@ -18,7 +19,8 @@ const DEFAULT_INSTRUCTIONS = 'Extract ONLY what is literally visible. sender_use
  * @param {string} mimeType - The MIME type
  */
 async function fileToBase64DataUrl(url, mimeType) {
-  const response = await fetch(url);
+  const signedUrl = getSignedUrl(url);
+  const response = await fetch(signedUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch image from URL: ${response.statusText}`);
   }
