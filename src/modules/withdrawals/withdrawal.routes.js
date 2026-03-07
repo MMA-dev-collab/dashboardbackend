@@ -149,8 +149,20 @@ router.get('/:id/receipt', async (req, res, next) => {
     }
 
     // Proxy the file from Cloudinary to avoid CORS issues
-    const fetchUrl = getSignedUrl(request.receiptPath);
-    const cloudResponse = await fetch(fetchUrl);
+    const originalUrl = request.receiptPath;
+    const signedUrl = getSignedUrl(originalUrl);
+
+    // ADD THIS TEMPORARILY
+    console.log('=== CLOUDINARY DEBUG ===');
+    console.log('Original URL:', originalUrl);
+    console.log('Signed URL:', signedUrl);
+    console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
+
+    const cloudResponse = await fetch(signedUrl);
+    console.log('Cloudinary response status:', cloudResponse.status);
+    console.log('Cloudinary response headers:', Object.fromEntries(cloudResponse.headers));
+    // END DEBUG
+
     if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch receipt from storage' });
 
     const buffer = Buffer.from(await cloudResponse.arrayBuffer());

@@ -79,8 +79,20 @@ class TasksController {
       if (!attachment.url) return res.status(404).json({ success: false, message: 'File not available' });
 
       // Proxy the file from Cloudinary to avoid CORS issues
-      const fetchUrl = getSignedUrl(attachment.url);
-      const cloudResponse = await fetch(fetchUrl);
+      const originalUrl = attachment.url;
+      const signedUrl = getSignedUrl(originalUrl);
+
+      // ADD THIS TEMPORARILY
+      console.log('=== CLOUDINARY DEBUG ===');
+      console.log('Original URL:', originalUrl);
+      console.log('Signed URL:', signedUrl);
+      console.log('Resource type detected:', originalUrl.includes('/raw/') ? 'raw' : 'image');
+
+      const cloudResponse = await fetch(signedUrl);
+      console.log('Cloudinary response status:', cloudResponse.status);
+      console.log('Cloudinary response headers:', Object.fromEntries(cloudResponse.headers));
+      // END DEBUG
+
       if (!cloudResponse.ok) return res.status(502).json({ success: false, message: 'Failed to fetch file from storage' });
 
       const buffer = Buffer.from(await cloudResponse.arrayBuffer());
