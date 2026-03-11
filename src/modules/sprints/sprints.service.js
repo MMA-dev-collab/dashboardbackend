@@ -28,6 +28,43 @@ class SprintsService {
       data: { status }
     });
   }
+
+  async getMetrics(sprintId) {
+    const sprint = await prisma.sprint.findUnique({
+      where: { id: sprintId },
+      include: {
+        budget: true,
+        tasks: {
+          include: { column: true }
+        }
+      }
+    });
+
+    if (!sprint) throw new NotFoundError('Sprint not found');
+
+    const totalTasks = sprint.tasks.length;
+    let completedTasks = 0;
+    let totalStoryPoints = 0;
+    let completedStoryPoints = 0;
+
+    sprint.tasks.forEach(task => {
+      totalStoryPoints += task.storyPoints;
+      // Assuming 'Done' or similar is the marker for a completed task
+      if (['Done', 'Completed'].includes(task.column.name)) {
+        completedTasks++;
+        completedStoryPoints += task.storyPoints;
+      }
+    });
+
+    return {
+      totalTasks,
+      completedTasks,
+      completionRate: totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0,
+      totalStoryPoints,
+      completedStoryPoints,
+      budget: sprint.budget || null
+    };
+  }
 }
 
 module.exports = new SprintsService();

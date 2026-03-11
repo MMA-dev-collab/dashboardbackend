@@ -21,8 +21,9 @@ async function main() {
 
 
   // Start cron jobs
-  const { startCalendarCron } = require('./jobs/cron');
+  const { startCalendarCron, startAutomationCron } = require('./jobs/cron');
   startCalendarCron();
+  startAutomationCron();
 
   server.listen(PORT, () => {
     console.log(`✓ EgyCodera API running on port ${PORT} [${env.NODE_ENV}]`);

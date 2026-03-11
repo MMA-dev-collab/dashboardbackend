@@ -62,4 +62,21 @@ function startCalendarCron() {
   console.log('[CRON] Calendar reminder job scheduled (every hour)');
 }
 
-module.exports = { startCalendarCron };
+/**
+ * Automation Processor Cron Job
+ * Simulates processing of scheduled triggers every 5 minutes
+ */
+function startAutomationCron() {
+  cron.schedule('*/5 * * * *', async () => {
+    try {
+      console.log('[CRON] Running scheduled automations check...');
+      // e.g., check for overdue tasks or sprints that need to start, 
+      // and call automationService.handleTrigger('SPRINT_STARTED', ...)
+    } catch (err) {
+      console.error('[CRON] Automation error:', err.message);
+    }
+  });
+  console.log('[CRON] Automation processor job scheduled (every 5 minutes)');
+}
+
+module.exports = { startCalendarCron, startAutomationCron };

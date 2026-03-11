@@ -55,6 +55,7 @@ model User {
   aiConversations        AiConversation[]
   aiThreads              AiThread[]
   aiRequestLogs          AiRequestLog[]
+  automationRules        AutomationRule[]
 
   @@map("users")
 }
@@ -156,6 +157,7 @@ model Project {
   boardColumns  BoardColumn[]
   tasks         Task[]
   events        Event[]
+  automationRules AutomationRule[]
 
   @@index([status])
   @@index([paymentStatus])
@@ -668,6 +670,8 @@ model Sprint {
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   tasks   Task[]
+  milestones SprintMilestone[]
+  budget    SprintBudget?
 
   @@index([projectId])
   @@index([status])
@@ -925,4 +929,90 @@ model AiRequestLog {
   @@index([createdAt])
   @@index([provider])
   @@map("ai_request_logs")
+}
+
+// ============================================
+// WORKFLOW AUTOMATION
+// ============================================
+
+model AutomationRule {
+  id          String           @id @default(uuid())
+  name        String
+  description String?          @db.Text
+  triggerEvent AutomationTrigger
+  conditions  Json?            // JSON: field, operator, value
+  actions     Json             // JSON array: { type, config }
+  isActive    Boolean          @default(true) @map("is_active")
+  projectId   String?          @map("project_id")
+  createdBy   String           @map("created_by")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  project Project?             @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  creator User                 @relation(fields: [createdBy], references: [id])
+  logs    AutomationLog[]
+
+  @@index([triggerEvent])
+  @@index([isActive])
+  @@map("automation_rules")
+}
+
+enum AutomationTrigger {
+  PROJECT_CREATED
+  PROJECT_STATUS_CHANGED
+  PAYMENT_RECEIVED
+  TASK_CREATED
+  TASK_COMPLETED
+  SPRINT_STARTED
+  SPRINT_COMPLETED
+  LEAD_CREATED
+  LEAD_STAGE_CHANGED
+  WITHDRAWAL_REQUESTED
+}
+
+model AutomationLog {
+  id          String        @id @default(uuid())
+  ruleId      String        @map("rule_id")
+  triggerData Json?         @map("trigger_data")
+  result      Json?         // { success, actionsRun, errors }
+  executedAt  DateTime      @default(now()) @map("executed_at")
+
+  rule AutomationRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@index([ruleId])
+  @@index([executedAt])
+  @@map("automation_logs")
+}
+
+// ============================================
+// SPRINT ENHANCEMENTS
+// ============================================
+
+model SprintMilestone {
+  id          String       @id @default(uuid())
+  sprintId    String       @map("sprint_id")
+  title       String
+  description String?      @db.Text
+  dueDate     DateTime?    @map("due_date")
+  status      MilestoneStatus @default(PENDING)
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+
+  @@index([sprintId])
+  @@map("sprint_milestones")
+}
+
+model SprintBudget {
+  id          String   @id @default(uuid())
+  sprintId    String   @unique @map("sprint_id")
+  plannedBudget Decimal @default(0) @map("planned_budget") @db.Decimal(12, 2)
+  actualCost  Decimal  @default(0) @map("actual_cost") @db.Decimal(12, 2)
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+
+  @@map("sprint_budgets")
 }

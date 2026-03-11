@@ -26,9 +26,15 @@ class SprintsController {
 
   async completeSprint(req, res, next) {
     try {
-      // In a full system, completing a sprint would move incomplete tasks to the backlog or next sprint.
       const sprint = await sprintsService.updateStatus(req.params.sprintId, 'COMPLETED');
       success(res, sprint, 'Sprint completed');
+    } catch (err) { next(err); }
+  }
+
+  async getSprintMetrics(req, res, next) {
+    try {
+      const metrics = await sprintsService.getMetrics(req.params.sprintId);
+      success(res, metrics);
     } catch (err) { next(err); }
   }
 }

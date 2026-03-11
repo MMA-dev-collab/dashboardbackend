@@ -11,5 +11,6 @@ router.get('/', sprintsController.listSprints);
 router.post('/', requireRole('Admin', 'Partner'), sprintsController.createSprint);
 router.patch('/:sprintId/start', requireRole('Admin', 'Partner'), sprintsController.startSprint);
 router.patch('/:sprintId/complete', requireRole('Admin', 'Partner'), sprintsController.completeSprint);
+router.get('/:sprintId/metrics', sprintsController.getSprintMetrics);
 
 module.exports = router;

@@ -26,6 +26,8 @@ const boardColumnRoutes = require('./modules/boards/columns.routes');
 const taskRoutes = require('./modules/tasks/tasks.routes');
 const calendarRoutes = require('./modules/calendar/calendar.routes');
 const aiRoutes = require('./modules/ai/ai.routes');
+const analyticsRoutes = require('./modules/analytics/analytics.routes');
+const automationRoutes = require('./modules/automations/automations.routes');
 
 const app = express();
 
@@ -64,6 +66,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/automations', automationRoutes);
 
 // Agile Project Children
 app.use('/api/projects/:projectId/sprints', sprintRoutes);
