@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const prisma = require('../config/database');
+const { devtrackerService } = require('../modules/devtracker/devtracker.service');
 
 /**
  * Calendar Reminder Cron Job
@@ -79,4 +80,32 @@ function startAutomationCron() {
   console.log('[CRON] Automation processor job scheduled (every 5 minutes)');
 }
 
-module.exports = { startCalendarCron, startAutomationCron };
+/**
+ * Dev Session Auto-Timeout Cron Job
+ * Runs every 5 minutes. Kills sessions with no heartbeat for 30+ minutes.
+ */
+function startDevSessionTimeoutCron() {
+  cron.schedule('*/5 * * * *', async () => {
+    try {
+      const cutoff = new Date(Date.now() - 30 * 60 * 1000); // 30 min
+      const staleSessions = await prisma.devSession.findMany({
+        where: { isActive: true, lastHeartbeatAt: { lt: cutoff } },
+        select: { id: true },
+      });
+
+      for (const { id } of staleSessions) {
+        try {
+          await devtrackerService.forceEndSession(id, null); // null = system/auto-timeout
+          console.log(`[CRON] Auto-ended stale dev session ${id}`);
+        } catch (err) {
+          console.error(`[CRON] Failed to auto-end session ${id}:`, err.message);
+        }
+      }
+    } catch (err) {
+      console.error('[CRON] Dev session timeout error:', err.message);
+    }
+  });
+  console.log('[CRON] Dev session timeout job scheduled (every 5 minutes, 30min threshold)');
+}
+
+module.exports = { startCalendarCron, startAutomationCron, startDevSessionTimeoutCron };
