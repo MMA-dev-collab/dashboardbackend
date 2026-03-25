@@ -14,6 +14,7 @@ class SprintsService {
 
   async create(data) {
     if (!data.name) throw new BadRequestError('Sprint name is required');
+    if (data.totalPoints !== undefined) data.totalPoints = Number(data.totalPoints);
     return prisma.sprint.create({ data });
   }
 
@@ -21,10 +22,11 @@ class SprintsService {
     const sprint = await prisma.sprint.findUnique({ where: { id } });
     if (!sprint) throw new NotFoundError('Sprint not found');
 
-    const { startDate, endDate, goal, name } = data;
+    const { startDate, endDate, goal, name, totalPoints } = data;
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (goal !== undefined) updateData.goal = goal;
+    if (totalPoints !== undefined) updateData.totalPoints = Number(totalPoints);
     if (startDate !== undefined) updateData.startDate = startDate ? new Date(startDate) : null;
     if (endDate !== undefined) updateData.endDate = endDate ? new Date(endDate) : null;
 
@@ -100,6 +102,7 @@ class SprintsService {
       completionRate: totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0,
       totalStoryPoints,
       completedStoryPoints,
+      sprintTotalPoints: sprint.totalPoints || 0,
       totalEstimatedTime,
       totalLoggedTime,
       budget: sprint.budget || null,

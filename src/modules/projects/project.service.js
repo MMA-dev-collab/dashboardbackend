@@ -19,12 +19,6 @@ class ProjectService {
         where,
         skip: pagination.skip || 0,
         take: pagination.limit || 20,
-        include: {
-          partners: {
-            include: { user: { select: { id: true, firstName: true, lastName: true, email: true, profilePicture: true } } },
-          },
-          _count: { select: { expenses: true, payments: true } },
-        },
         orderBy: { createdAt: 'desc' },
       }),
       prisma.project.count({ where }),
