@@ -217,6 +217,7 @@ class TasksService {
           taskId,
           fromColumnId,
           toColumnId,
+          toStatus: updatedTask.column?.name, // Store the name for easy display
           movedBy: userId
         }
       });
@@ -280,14 +281,6 @@ class TasksService {
     return prisma.taskAttachment.findUnique({ where: { id: attachmentId } });
   }
 
-  async logTime(taskId, minutes) {
-    const task = await prisma.task.findUnique({ where: { id: taskId } });
-    if (!task || task.isArchived) throw new NotFoundError('Task not found');
-    return prisma.task.update({
-      where: { id: taskId },
-      data: { loggedTime: { increment: minutes } }
-    });
-  }
 }
 
 module.exports = new TasksService();
