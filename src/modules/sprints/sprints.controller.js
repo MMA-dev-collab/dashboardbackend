@@ -17,6 +17,13 @@ class SprintsController {
     } catch (err) { next(err); }
   }
 
+  async updateSprint(req, res, next) {
+    try {
+      const sprint = await sprintsService.update(req.params.sprintId, req.body);
+      success(res, sprint, 'Sprint updated');
+    } catch (err) { next(err); }
+  }
+
   async startSprint(req, res, next) {
     try {
       const sprint = await sprintsService.updateStatus(req.params.sprintId, 'ACTIVE');
@@ -31,10 +38,24 @@ class SprintsController {
     } catch (err) { next(err); }
   }
 
+  async reopenSprint(req, res, next) {
+    try {
+      const sprint = await sprintsService.updateStatus(req.params.sprintId, 'ACTIVE');
+      success(res, sprint, 'Sprint reopened');
+    } catch (err) { next(err); }
+  }
+
   async getSprintMetrics(req, res, next) {
     try {
       const metrics = await sprintsService.getMetrics(req.params.sprintId);
       success(res, metrics);
+    } catch (err) { next(err); }
+  }
+
+  async assignMembers(req, res, next) {
+    try {
+      const members = await sprintsService.assignMembers(req.params.sprintId, req.body.members);
+      success(res, members, 'Sprint team updated');
     } catch (err) { next(err); }
   }
 }

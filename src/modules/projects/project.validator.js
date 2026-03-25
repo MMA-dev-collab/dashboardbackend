@@ -8,7 +8,7 @@ const createProjectSchema = Joi.object({
   totalValue: Joi.number().min(0).precision(2).required(),
   companyPercentage: Joi.number().min(0).max(100).precision(2).default(30),
   startDate: Joi.date().optional(),
-  endDate: Joi.date().optional().min(Joi.ref('startDate')),
+  deadline: Joi.date().optional(),
   partners: Joi.array().items(
     Joi.object({
       userId: Joi.string().uuid().required(),
@@ -28,7 +28,7 @@ const updateProjectSchema = Joi.object({
   status: Joi.string().valid('PLANNING', 'ACTIVE', 'ON_HOLD', 'COMPLETED', 'CANCELLED'),
   completionPct: Joi.number().integer().min(0).max(100),
   startDate: Joi.date().optional(),
-  endDate: Joi.date().optional(),
+  deadline: Joi.date().optional(),
 }).min(1);
 
 const assignPartnersSchema = Joi.object({

@@ -60,6 +60,18 @@ class TasksController {
     } catch (err) { next(err); }
   }
 
+  async logTime(req, res, next) {
+    try {
+      const { taskId } = req.params;
+      const { minutes } = req.body;
+      if (!minutes || isNaN(parseInt(minutes)) || parseInt(minutes) <= 0) {
+        return res.status(400).json({ success: false, message: 'Provide a valid number of minutes > 0' });
+      }
+      const task = await tasksService.logTime(taskId, parseInt(minutes));
+      success(res, task, 'Time logged');
+    } catch (err) { next(err); }
+  }
+
   async uploadAttachment(req, res, next) {
     try {
       if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });

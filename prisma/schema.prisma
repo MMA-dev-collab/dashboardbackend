@@ -59,6 +59,7 @@ model User {
   devSessions            DevSession[]
   devSessionLogs         DevSessionLog[]
   forcedEndedSessions    DevSessionLog[]     @relation("ForceEndedBy")
+  sprintMembers          SprintMember[]
 
   @@map("users")
 }
@@ -161,8 +162,9 @@ model Project {
   tasks         Task[]
   events        Event[]
   automationRules AutomationRule[]
-  devSessions   DevSession[]
-  devSessionLogs DevSessionLog[]
+  devSessions     DevSession[]
+  devSessionLogs  DevSessionLog[]
+  tags            Tag[]
 
   @@index([status])
   @@index([paymentStatus])
@@ -673,14 +675,29 @@ model Sprint {
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
 
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  tasks   Task[]
+  project    Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks      Task[]
   milestones SprintMilestone[]
-  budget    SprintBudget?
+  budget     SprintBudget?
+  members    SprintMember[]
 
   @@index([projectId])
   @@index([status])
   @@map("sprints")
+}
+
+model SprintMember {
+  id       String @id @default(uuid())
+  sprintId String @map("sprint_id")
+  userId   String @map("user_id")
+  role     String @default("developer")
+
+  sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([sprintId, userId])
+  @@index([sprintId])
+  @@map("sprint_members")
 }
 
 enum SprintStatus {
@@ -707,23 +724,25 @@ model BoardColumn {
 }
 
 model Task {
-  id          String       @id @default(uuid())
-  projectId   String       @map("project_id")
-  sprintId    String?      @map("sprint_id")
-  columnId    String       @map("column_id")
-  title       String
-  description String?      @db.Text
-  type        TaskType     @default(TASK)
-  priority    TaskPriority @default(MEDIUM)
-  storyPoints Int          @default(0) @map("story_points")
-  dueDate     DateTime?    @map("due_date")
-  parentId    String?      @map("parent_id")
-  assigneeId  String?      @map("assignee_id")
-  reporterId  String       @map("reporter_id")
-  isArchived  Boolean      @default(false) @map("is_archived")
-  version     Int          @default(1)
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
+  id            String       @id @default(uuid())
+  projectId     String       @map("project_id")
+  sprintId      String?      @map("sprint_id")
+  columnId      String       @map("column_id")
+  title         String
+  description   String?      @db.Text
+  type          TaskType     @default(TASK)
+  priority      TaskPriority @default(MEDIUM)
+  storyPoints   Int          @default(0) @map("story_points")
+  estimatedTime Int          @default(0) @map("estimated_time") // in minutes
+  loggedTime    Int          @default(0) @map("logged_time")    // in minutes
+  dueDate       DateTime?    @map("due_date")
+  parentId      String?      @map("parent_id")
+  assigneeId    String?      @map("assignee_id")
+  reporterId    String       @map("reporter_id")
+  isArchived    Boolean      @default(false) @map("is_archived")
+  version       Int          @default(1)
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
   project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
   sprint      Sprint?          @relation(fields: [sprintId], references: [id], onDelete: SetNull)
@@ -736,6 +755,7 @@ model Task {
   history     TaskHistory[]
   attachments TaskAttachment[]
   devSessions DevSession[]
+  taskTags    TaskTag[]
 
   @@index([projectId])
   @@index([sprintId])
@@ -743,6 +763,34 @@ model Task {
   @@index([assigneeId])
   @@index([parentId])
   @@map("tasks")
+}
+
+model Tag {
+  id        String    @id @default(uuid())
+  projectId String    @map("project_id")
+  name      String
+  color     String    @default("#6366f1")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskTags TaskTag[]
+
+  @@unique([projectId, name])
+  @@index([projectId])
+  @@map("tags")
+}
+
+model TaskTag {
+  id     String @id @default(uuid())
+  taskId String @map("task_id")
+  tagId  String @map("tag_id")
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, tagId])
+  @@index([taskId])
+  @@map("task_tags")
 }
 
 enum TaskType {

@@ -29,6 +29,7 @@ router.delete('/:taskId', requireRole('Admin'), tasksController.deleteTask);
 
 // Agile Actions
 router.patch('/:taskId/move', tasksController.moveTask);
+router.patch('/:taskId/log-time', tasksController.logTime);
 router.post('/:taskId/comments', tasksController.addComment);
 
 // Attachments

@@ -54,6 +54,9 @@ class TasksService {
           include: { user: { select: { id: true, firstName: true, lastName: true, profilePicture: true } } },
           orderBy: { movedAt: 'desc' },
           take: 20
+        },
+        taskTags: {
+          include: { tag: true }
         }
       }
     });
@@ -72,6 +75,13 @@ class TasksService {
       data.dueDate = null;
     } else if (data.dueDate) {
       data.dueDate = new Date(data.dueDate);
+    }
+
+    // STORY-only subtask enforcement
+    if (data.parentId) {
+      const parent = await prisma.task.findUnique({ where: { id: data.parentId } });
+      if (!parent) throw new NotFoundError('Parent task not found');
+      if (parent.type !== 'STORY') throw new BadRequestError('Subtasks can only be added to Story-type tickets');
     }
     
     return prisma.$transaction(async (tx) => {
@@ -151,6 +161,18 @@ class TasksService {
       }
 
       return updatedTask;
+    });
+  }
+
+  async logTime(taskId, minutes) {
+    const task = await prisma.task.findUnique({ where: { id: taskId } });
+    if (!task || task.isArchived) throw new NotFoundError('Task not found');
+
+    return prisma.task.update({
+      where: { id: taskId },
+      data: {
+        loggedTime: { increment: minutes }
+      }
     });
   }
 
@@ -256,6 +278,15 @@ class TasksService {
 
   async getAttachment(attachmentId) {
     return prisma.taskAttachment.findUnique({ where: { id: attachmentId } });
+  }
+
+  async logTime(taskId, minutes) {
+    const task = await prisma.task.findUnique({ where: { id: taskId } });
+    if (!task || task.isArchived) throw new NotFoundError('Task not found');
+    return prisma.task.update({
+      where: { id: taskId },
+      data: { loggedTime: { increment: minutes } }
+    });
   }
 }
 

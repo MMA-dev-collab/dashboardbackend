@@ -71,10 +71,14 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/automations', automationRoutes);
 app.use('/api/devtracker', devtrackerRoutes);
 
+const tagsRoutes = require('./modules/tags/tags.routes');
+
 // Agile Project Children
 app.use('/api/projects/:projectId/sprints', sprintRoutes);
 app.use('/api/projects/:projectId/columns', boardColumnRoutes);
 app.use('/api/projects/:projectId/tasks', taskRoutes);
+app.use('/api/projects/:projectId/tags', tagsRoutes.projectRouter);
+app.use('/api/projects/:projectId/tasks/:taskId/tags', tagsRoutes.taskRouter);
 
 // 404 handler
 app.use((req, res) => {
