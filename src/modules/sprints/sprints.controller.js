@@ -4,7 +4,9 @@ const { success, created } = require('../../utils/response');
 class SprintsController {
   async listSprints(req, res, next) {
     try {
+      console.log(`[DEBUG] listSprints: Listing sprints for project ID: ${req.params.projectId}`);
       const sprints = await sprintsService.list(req.params.projectId);
+      console.log(`[DEBUG] listSprints: Found ${sprints.length} sprints for project ${req.params.projectId}`);
       success(res, sprints);
     } catch (err) { next(err); }
   }
