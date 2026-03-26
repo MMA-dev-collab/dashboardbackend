@@ -23,6 +23,11 @@ const errorHandler = (err, req, res, _next) => {
     message = 'Invalid reference - related record not found';
   }
 
+  // Log Prisma error details to the server console for debugging
+  if (err.name?.startsWith('Prisma')) {
+    console.error(`[Prisma Error] Code: ${err.code}, Message: ${err.message}`);
+  }
+
   // Don't leak internal error details in production
   if (statusCode === 500 && env.NODE_ENV === 'production') {
     message = 'Internal server error';
@@ -30,7 +35,7 @@ const errorHandler = (err, req, res, _next) => {
   }
 
   if (env.NODE_ENV !== 'test') {
-    console.error(`[Error] ${statusCode} - ${err.message}`, err.stack);
+    console.error(`[Error LOG] ${statusCode} - ${err.name || 'UnknownError'}: ${err.message}`, err.stack);
   }
 
   res.status(statusCode).json({

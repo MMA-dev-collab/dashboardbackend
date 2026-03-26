@@ -13,7 +13,9 @@ async function main() {
     console.log('✓ Database connected');
   } catch (err) {
     console.error('✗ Database connection failed:', err.message);
-    process.exit(1);
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   }
 
   // Create HTTP server from Express app
