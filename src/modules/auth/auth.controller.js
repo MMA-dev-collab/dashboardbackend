@@ -13,9 +13,12 @@ class AuthController {
 
   async login(req, res, next) {
     try {
+      console.log(`[DEBUG] Attempting login for email: ${req.body.email}`);
       const result = await authService.login(req.body.email, req.body.password);
+      console.log(`[DEBUG] Login successful for: ${req.body.email}`);
       success(res, result, 'Login successful');
     } catch (err) {
+      console.error(`[DEBUG] Login failed for ${req.body.email}: ${err.message}`);
       next(err);
     }
   }
