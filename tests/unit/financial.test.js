@@ -70,7 +70,7 @@ describe('Financial Utilities', () => {
 
   describe('validatePercentages', () => {
     it('validates percentages summing to 100', () => {
-      const result = validatePercentages([
+      const result = validatePercentages(0, [
         { percentage: 40 },
         { percentage: 35 },
         { percentage: 25 },
@@ -80,7 +80,7 @@ describe('Financial Utilities', () => {
     });
 
     it('rejects percentages not summing to 100', () => {
-      const result = validatePercentages([
+      const result = validatePercentages(0, [
         { percentage: 40 },
         { percentage: 30 },
       ]);
@@ -89,7 +89,7 @@ describe('Financial Utilities', () => {
     });
 
     it('rejects empty array', () => {
-      const result = validatePercentages([]);
+      const result = validatePercentages(0, []);
       expect(result.valid).toBe(false);
     });
   });

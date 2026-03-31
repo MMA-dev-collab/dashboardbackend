@@ -2,9 +2,11 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const corsMiddleware = require('./config/cors');
+const logger = require('./config/logger');
 const { errorHandler } = require('./middleware/errorHandler');
+const { generalLimiter, authLimiter, aiLimiter } = require('./middleware/rateLimiter');
 
-// Route imports
+// ── Route imports ─────────────────────────────────────────────────
 const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/users/user.routes');
 const projectRoutes = require('./modules/projects/project.routes');
@@ -29,27 +31,36 @@ const aiRoutes = require('./modules/ai/ai.routes');
 const analyticsRoutes = require('./modules/analytics/analytics.routes');
 const automationRoutes = require('./modules/automations/automations.routes');
 const devtrackerRoutes = require('./modules/devtracker/devtracker.routes');
+const tagsRoutes = require('./modules/tags/tags.routes');
 
 const app = express();
 
-// Security & parsing
+// ── Security & Parsing ───────────────────────────────────────────
 app.use(helmet());
 app.use(corsMiddleware);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Logging (skip in test)
+// ── HTTP request logging via Winston ─────────────────────────────
 if (process.env.NODE_ENV !== 'test') {
-  app.use(morgan('combined'));
+  app.use(morgan('combined', { stream: logger.stream }));
 }
 
-// Health check
+// ── Global rate limiter ───────────────────────────────────────────
+app.use(generalLimiter);
+
+// ── Health check (no rate limit, no auth) ────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
+// ── Auth routes (strict rate limit: brute-force protection) ──────
+app.use('/api/auth', authLimiter, authRoutes);
+
+// ── AI routes (per-user AI rate limit) ───────────────────────────
+app.use('/api/ai', aiLimiter, aiRoutes);
+
+// ── Standard API routes ───────────────────────────────────────────
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/finance', financeRoutes);
@@ -66,26 +77,23 @@ app.use('/api/operations', operationsRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/calendar', calendarRoutes);
-app.use('/api/ai', aiRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/automations', automationRoutes);
 app.use('/api/devtracker', devtrackerRoutes);
 
-const tagsRoutes = require('./modules/tags/tags.routes');
-
-// Agile Project Children
+// ── Agile project children routes ─────────────────────────────────
 app.use('/api/projects/:projectId/sprints', sprintRoutes);
 app.use('/api/projects/:projectId/columns', boardColumnRoutes);
 app.use('/api/projects/:projectId/tasks', taskRoutes);
 app.use('/api/projects/:projectId/tags', tagsRoutes.projectRouter);
 app.use('/api/projects/:projectId/tasks/:taskId/tags', tagsRoutes.taskRouter);
 
-// 404 handler
+// ── 404 handler ───────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// Global error handler
+// ── Global error handler ──────────────────────────────────────────
 app.use(errorHandler);
 
 module.exports = app;

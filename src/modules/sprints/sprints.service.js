@@ -22,13 +22,28 @@ class SprintsService {
     const sprint = await prisma.sprint.findUnique({ where: { id } });
     if (!sprint) throw new NotFoundError('Sprint not found');
 
-    const { startDate, endDate, goal, name, totalPoints } = data;
+    const { startDate, endDate, goal, name, totalPoints, budget } = data;
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (goal !== undefined) updateData.goal = goal;
     if (totalPoints !== undefined) updateData.totalPoints = Number(totalPoints);
     if (startDate !== undefined) updateData.startDate = startDate ? new Date(startDate) : null;
     if (endDate !== undefined) updateData.endDate = endDate ? new Date(endDate) : null;
+    
+    if (budget) {
+      updateData.budget = {
+        upsert: {
+          create: {
+            plannedBudget: Number(budget.plannedBudget || 0),
+            actualCost: Number(budget.actualCost || 0)
+          },
+          update: {
+            plannedBudget: Number(budget.plannedBudget || 0),
+            actualCost: Number(budget.actualCost || 0)
+          }
+        }
+      };
+    }
 
     return prisma.sprint.update({ where: { id }, data: updateData });
   }

@@ -1,57 +1,135 @@
 const prisma = require('../config/database');
+const logger = require('../config/logger');
 
 /**
  * Shared Notification Utility
- * 
- * Creates a notification in the DB and pushes it via SSE to the user in real-time.
- * This module is importable from any service or route.
+ *
+ * Improvements over original:
+ *  - sseClients now a Map<userId, Set<client>> — supports multiple browser tabs per user
+ *  - Per-client heartbeat (25 s interval) — keeps connections alive through nginx / load balancers
+ *  - Heartbeat is stopped automatically on disconnect — no memory leak
+ *  - pushToUser writes to ALL active connections for a user
+ *  - closeAllClients() exported for graceful server shutdown
  */
 
-// SSE client registry (shared across the app via module caching)
-const sseClients = new Set();
+// ── SSE Client Registry ── Map<userId, Set<clientObj>> ──────────
+const sseClients = new Map();
+
+// ── Heartbeat interval (ms) ──────────────────────────────────────
+const HEARTBEAT_INTERVAL_MS = 25_000;
 
 /**
  * Register an SSE client connection.
- * Called from notifications.routes.js when a user opens the SSE stream.
+ * Starts a per-client heartbeat timer.
+ *
+ * @param {{ id: string, res: import('express').Response }} client
  */
 function addClient(client) {
-  sseClients.add(client);
+  if (!sseClients.has(client.id)) {
+    sseClients.set(client.id, new Set());
+  }
+  sseClients.get(client.id).add(client);
+
+  // Heartbeat: sends SSE comment every 25 s to prevent idle disconnection
+  client._heartbeat = setInterval(() => {
+    try {
+      client.res.write(': heartbeat\n\n');
+    } catch {
+      // Connection already closed — clean up
+      removeClient(client);
+    }
+  }, HEARTBEAT_INTERVAL_MS);
+
+  logger.debug(`[SSE] Client connected: userId=${client.id} (total connections=${countTotal()})`);
 }
 
 /**
- * Remove an SSE client connection on disconnect.
+ * Unregister an SSE client on disconnect.
+ * Clears the heartbeat timer.
+ *
+ * @param {{ id: string, _heartbeat?: NodeJS.Timeout }} client
  */
 function removeClient(client) {
-  sseClients.delete(client);
+  if (client._heartbeat) {
+    clearInterval(client._heartbeat);
+    client._heartbeat = null;
+  }
+
+  const userSet = sseClients.get(client.id);
+  if (userSet) {
+    userSet.delete(client);
+    if (userSet.size === 0) {
+      sseClients.delete(client.id);
+    }
+  }
+
+  logger.debug(`[SSE] Client disconnected: userId=${client.id} (total connections=${countTotal()})`);
 }
 
 /**
- * Push a notification payload to a specific user via SSE (if connected).
+ * Push a notification payload to ALL active connections for a user.
+ *
+ * @param {string} userId
+ * @param {object} data
  */
 function pushToUser(userId, data) {
-  sseClients.forEach(client => {
-    if (client.id === userId) {
-      client.res.write(`data: ${JSON.stringify(data)}\n\n`);
+  const userSet = sseClients.get(userId);
+  if (!userSet || userSet.size === 0) return;
+
+  const payload = `data: ${JSON.stringify(data)}\n\n`;
+  for (const client of userSet) {
+    try {
+      client.res.write(payload);
+    } catch (err) {
+      logger.warn(`[SSE] Failed to push to userId=${userId}`, { error: err.message });
+      removeClient(client);
     }
-  });
+  }
 }
+
+/**
+ * Close all active SSE connections (called on graceful server shutdown).
+ */
+function closeAllClients() {
+  let count = 0;
+  for (const [, userSet] of sseClients) {
+    for (const client of userSet) {
+      clearInterval(client._heartbeat);
+      try { client.res.end(); } catch { /* ignore */ }
+      count++;
+    }
+  }
+  sseClients.clear();
+  logger.info(`[SSE] Closed ${count} active SSE connection(s) during shutdown`);
+}
+
+/**
+ * Return total number of open SSE connections across all users.
+ */
+function countTotal() {
+  let total = 0;
+  for (const s of sseClients.values()) total += s.size;
+  return total;
+}
+
+// ─────────────────────────────────────────────────────────────────
 
 /**
  * Create a notification in the DB and push it via SSE.
- * 
+ *
  * @param {Object} opts
- * @param {string} opts.userId - Recipient user ID
- * @param {string} opts.title - Notification title
- * @param {string} opts.message - Notification body
- * @param {string} [opts.type='info'] - Type: 'info', 'success', 'warning', 'error', 'task', 'chat', 'withdrawal'
- * @param {string} [opts.link] - Deep-link URL within the app
+ * @param {string} opts.userId    - Recipient user ID
+ * @param {string} opts.title     - Notification title
+ * @param {string} opts.message   - Notification body
+ * @param {string} [opts.type]    - 'info' | 'success' | 'warning' | 'error' | 'task' | 'chat' | 'withdrawal'
+ * @param {string} [opts.link]    - Deep-link URL within the app
  * @param {string} [opts.actorId] - The user who triggered this notification
- * @param {Object} [tx] - Optional Prisma transaction client (use inside $transaction)
+ * @param {Object} [tx]           - Optional Prisma transaction client
  * @returns {Promise<Object>} The created notification
  */
 async function sendNotification({ userId, title, message, type = 'info', link, actorId }, tx) {
   const db = tx || prisma;
-  
+
   const notification = await db.notification.create({
     data: {
       userId,
@@ -62,11 +140,10 @@ async function sendNotification({ userId, title, message, type = 'info', link, a
       actorId: actorId || null,
     },
     include: {
-      actor: { select: { id: true, firstName: true, lastName: true, profilePicture: true } }
-    }
+      actor: { select: { id: true, firstName: true, lastName: true, profilePicture: true } },
+    },
   });
 
-  // Push via SSE for real-time delivery
   pushToUser(userId, notification);
 
   return notification;
@@ -74,8 +151,8 @@ async function sendNotification({ userId, title, message, type = 'info', link, a
 
 /**
  * Send notifications to multiple users.
- * 
- * @param {Array<Object>} notifications - Array of notification objects (same shape as sendNotification opts)
+ *
+ * @param {Array<Object>} notifications - Array of notification option objects
  * @param {Object} [tx] - Optional Prisma transaction client
  */
 async function sendNotificationToMany(notifications, tx) {
@@ -90,9 +167,9 @@ async function sendNotificationToMany(notifications, tx) {
 /**
  * Get all admin user IDs (users with the 'Admin' role).
  * Optionally exclude a specific user.
- * 
- * @param {string} [excludeUserId] - User ID to exclude from the result
- * @returns {Promise<string[]>} Array of admin user IDs
+ *
+ * @param {string} [excludeUserId]
+ * @returns {Promise<string[]>}
  */
 async function getAdminUserIds(excludeUserId) {
   const adminRole = await prisma.role.findUnique({ where: { name: 'Admin' } });
@@ -106,15 +183,18 @@ async function getAdminUserIds(excludeUserId) {
     select: { userId: true },
   });
 
-  return adminUsers.map(u => u.userId);
+  return adminUsers.map((u) => u.userId);
 }
 
 module.exports = {
   addClient,
   removeClient,
   pushToUser,
+  closeAllClients,
+  countTotal,
   sendNotification,
   sendNotificationToMany,
   getAdminUserIds,
+  // Expose for backward-compat (e.g. unit tests that peek at the Set)
   sseClients,
 };

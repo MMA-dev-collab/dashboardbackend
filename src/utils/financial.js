@@ -43,7 +43,7 @@ function calculateDistribution(netProfit, companyPercentage, partners) {
   const partnerShares = partners.map((p) => ({
     userId: p.userId,
     percentage: new Decimal(p.percentage),
-    amount: np.times(new Decimal(p.percentage).dividedBy(100)),
+    amount: remaining.times(new Decimal(p.percentage).dividedBy(100)),
   }));
 
   return { companyShare, remaining, partnerShares };

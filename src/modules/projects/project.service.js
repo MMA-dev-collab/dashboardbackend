@@ -30,23 +30,77 @@ class ProjectService {
   async getById(id) {
     const project = await prisma.project.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        clientName: true,
+        clientEmail: true,
+        description: true,
+        status: true,
+        totalValue: true,
+        companyPercentage: true,
+        paymentStatus: true,
+        completionPct: true,
+        startDate: true,
+        endDate: true,
+        createdAt: true,
+        updatedAt: true,
+        // Lean nested selects — only the fields consumers actually use
         partners: {
-          include: { user: { select: { id: true, firstName: true, lastName: true, email: true, profilePicture: true } } },
+          select: {
+            id: true,
+            percentage: true,
+            role: true,
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                profilePicture: true,
+              },
+            },
+          },
         },
-        expenses: { orderBy: { date: 'desc' }, include: { user: { select: { firstName: true, lastName: true, profilePicture: true } } } },
-        payments: { orderBy: { paidAt: 'desc' } },
-        milestones: { orderBy: { createdAt: 'asc' } },
-        documents: { 
-          include: { uploader: { select: { id: true, firstName: true, lastName: true, profilePicture: true } } },
-          orderBy: { createdAt: 'desc' }
-        }
+        expenses: {
+          orderBy: { date: 'desc' },
+          select: {
+            id: true,
+            category: true,
+            description: true,
+            amount: true,
+            date: true,
+            user: { select: { firstName: true, lastName: true, profilePicture: true } },
+          },
+        },
+        payments: {
+          orderBy: { paidAt: 'desc' },
+          select: { id: true, amount: true, method: true, note: true, paidAt: true },
+        },
+        milestones: {
+          orderBy: { createdAt: 'asc' },
+          select: { id: true, title: true, description: true, status: true, dueDate: true, createdAt: true },
+        },
+        documents: {
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            fileName: true,
+            filePath: true,
+            fileSize: true,
+            mimeType: true,
+            category: true,
+            description: true,
+            createdAt: true,
+            uploader: { select: { id: true, firstName: true, lastName: true, profilePicture: true } },
+          },
+        },
       },
     });
 
     if (!project) throw new NotFoundError('Project not found');
 
-    // Calculate financials
+    // Calculate financials inline (no extra query needed)
     const totalExpenses = project.expenses.reduce((s, e) => s + Number(e.amount), 0);
     const totalPaid = project.payments.reduce((s, p) => s + Number(p.amount), 0);
     const netProfit = Number(project.totalValue) - totalExpenses;

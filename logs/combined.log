@@ -1,0 +1,12 @@
+{"level":"info","message":"✓ Database connected","timestamp":"2026-03-31 20:40:44"}
+{"level":"info","message":"✓ EgyCodera API running on port 5000 [production]","timestamp":"2026-03-31 20:40:46"}
+{"level":"info","message":"✓ Calendar cron job active","timestamp":"2026-03-31 20:40:46"}
+{"level":"info","message":"SIGINT received — shutting down gracefully...","timestamp":"2026-03-31 20:53:07"}
+{"level":"info","message":"[SSE] Closed 0 active SSE connection(s) during shutdown","timestamp":"2026-03-31 20:53:07"}
+{"level":"info","message":"✓ Server shut down cleanly","timestamp":"2026-03-31 20:53:10"}
+{"level":"info","message":"✓ Database connected","timestamp":"2026-03-31 20:53:16"}
+{"level":"info","message":"✓ EgyCodera API running on port 5000 [production]","timestamp":"2026-03-31 20:53:16"}
+{"level":"info","message":"✓ Calendar cron job active","timestamp":"2026-03-31 20:53:16"}
+{"level":"info","message":"SIGINT received — shutting down gracefully...","timestamp":"2026-03-31 20:59:42"}
+{"level":"info","message":"[SSE] Closed 0 active SSE connection(s) during shutdown","timestamp":"2026-03-31 20:59:42"}
+{"level":"info","message":"✓ Server shut down cleanly","timestamp":"2026-03-31 20:59:42"}

@@ -890,6 +890,8 @@ model Notification {
   @@index([userId])
   @@index([isRead])
   @@index([createdAt])
+  // Composite index: covers the most common query pattern (list unread for user, ordered by date)
+  @@index([userId, isRead, createdAt])
   @@map("notifications")
 }
 
@@ -964,6 +966,8 @@ model AiConversation {
 
   @@index([userId, createdAt])
   @@index([threadId])
+  // Composite index: covers thread-scoped history queries (userId + threadId + order by createdAt)
+  @@index([userId, threadId, createdAt])
   @@map("ai_conversations")
 }
 
