@@ -32,6 +32,8 @@ const analyticsRoutes = require('./modules/analytics/analytics.routes');
 const automationRoutes = require('./modules/automations/automations.routes');
 const devtrackerRoutes = require('./modules/devtracker/devtracker.routes');
 const tagsRoutes = require('./modules/tags/tags.routes');
+const reportRoutes = require('./modules/reports/reports.routes');
+const userTasksRoutes = require('./modules/tasks/user-tasks.routes');
 
 const app = express();
 
@@ -78,6 +80,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/tasks', userTasksRoutes);
 app.use('/api/automations', automationRoutes);
 app.use('/api/devtracker', devtrackerRoutes);
 

@@ -1,0 +1,1906 @@
+2026-04-06 13:34:48 [[31merror[39m]: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:22)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:34:48 [[31merror[39m]: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:22)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:35:08 [[31merror[39m]: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:22)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:35:08 [[31merror[39m]: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.project.findMany()` invocation in
+D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:43
+
+  167 }
+  168 
+  169 async getProjectComparison() {
+→ 170   const projects = await prisma.project.findMany({
+          where: {
+            isArchived: {
+            ~~~~~~~~~~
+              equals: false
+            },
+        ?   AND?: ProjectWhereInput | ProjectWhereInput[],
+        ?   OR?: ProjectWhereInput[],
+        ?   NOT?: ProjectWhereInput | ProjectWhereInput[],
+        ?   id?: StringFilter | String,
+        ?   name?: StringFilter | String,
+        ?   clientName?: StringFilter | String,
+        ?   clientEmail?: StringNullableFilter | String | Null,
+        ?   description?: StringNullableFilter | String | Null,
+        ?   status?: EnumProjectStatusFilter | ProjectStatus,
+        ?   totalValue?: DecimalFilter | Decimal,
+        ?   companyPercentage?: DecimalFilter | Decimal,
+        ?   paymentStatus?: EnumPaymentStatusFilter | PaymentStatus,
+        ?   completionPct?: IntFilter | Int,
+        ?   startDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   endDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   partners?: ProjectPartnerListRelationFilter,
+        ?   expenses?: ExpenseListRelationFilter,
+        ?   payments?: PaymentListRelationFilter,
+        ?   milestones?: MilestoneListRelationFilter,
+        ?   documents?: DocumentListRelationFilter,
+        ?   chatMessages?: ChatMessageListRelationFilter,
+        ?   riskFlags?: RiskFlagListRelationFilter,
+        ?   subscriptions?: SubscriptionListRelationFilter,
+        ?   proposals?: ProposalListRelationFilter,
+        ?   decisionLogs?: DecisionLogListRelationFilter,
+        ?   sprints?: SprintListRelationFilter,
+        ?   boardColumns?: BoardColumnListRelationFilter,
+        ?   tasks?: TaskListRelationFilter,
+        ?   events?: EventListRelationFilter,
+        ?   automationRules?: AutomationRuleListRelationFilter,
+        ?   devSessions?: DevSessionListRelationFilter,
+        ?   devSessionLogs?: DevSessionLogListRelationFilter,
+        ?   tags?: TagListRelationFilter
+          },
+          select: {
+            id: true,
+            name: true,
+            status: true,
+            completionPct: true,
+            totalValue: true,
+            endDate: true,
+            createdAt: true,
+            _count: {
+              select: {
+                tasks: {
+                  where: {
+                    isArchived: false
+                  }
+                },
+                partners: true
+              }
+            }
+          }
+        })
+
+Unknown argument `isArchived`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:170:22)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:43:45 [[31merror[39m]: Forced shutdown after timeout
+2026-04-06 13:45:45 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:45:45 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:46:25 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:46:25 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:46:31 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:46:31 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:47:05 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:47:12 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:47:13 [[31merror[39m]: overdueTasks is not defined
+  {"method":"GET","path":"/api/reports/project-comparison","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"ReferenceError"}
+ReferenceError: overdueTasks is not defined
+    at ReportsService.getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.service.js:228:9)
+    at async getProjectComparison (D:\Work\egycodera\backend\src\modules\reports\reports.controller.js:21:20)
+2026-04-06 13:56:56 [[31merror[39m]: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+  {"method":"PATCH","path":"/api/projects/4abc08d6-dd2c-4210-af90-ce7bbb7408d6/sprints/3687a1be-1d22-4a86-ab68-3599861bcac4/members","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async SprintsService.assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:7)
+    at async assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.controller.js:59:23)
+2026-04-06 13:59:09 [[31merror[39m]: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+  {"method":"PATCH","path":"/api/projects/4abc08d6-dd2c-4210-af90-ce7bbb7408d6/sprints/3687a1be-1d22-4a86-ab68-3599861bcac4/members","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async SprintsService.assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:7)
+    at async assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.controller.js:59:23)
+2026-04-06 13:59:51 [[31merror[39m]: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+  {"method":"PATCH","path":"/api/projects/4abc08d6-dd2c-4210-af90-ce7bbb7408d6/sprints/3687a1be-1d22-4a86-ab68-3599861bcac4/members","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `prisma.sprintMember.createMany()` invocation in
+D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:33
+
+  60 
+  61 await prisma.sprintMember.deleteMany({ where: { sprintId } });
+  62 if (members && members.length > 0) {
+→ 63   await prisma.sprintMember.createMany({
+         data: [
+           {
+             sprintId: "3687a1be-1d22-4a86-ab68-3599861bcac4",
+             userId: undefined,
+             role: "developer"
+           }
+         ]
+       })
+
+Argument `userId` is missing.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async SprintsService.assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.service.js:63:7)
+    at async assignMembers (D:\Work\egycodera\backend\src\modules\sprints\sprints.controller.js:59:23)
+2026-04-06 21:42:19 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "",
+            totalValue: 0,
+            companyPercentage: 100,
+            description: "",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "",
+            totalValue: 0,
+            companyPercentage: 100,
+            description: "",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:42:38 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 100,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 100,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:42:45 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:42:47 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:42:50 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1000,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1000,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:43:02 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1000,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 1000,
+            companyPercentage: 97,
+            description: "sdad",
+            deadline: new Date("2026-04-15T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-06 21:48:22 [[31merror[39m]: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\Work\egycodera\backend\src\middleware\auth.js:64:36
+
+  61 // ── 4. Cache MISS → fetch from DB ────────────────────────────
+  62 logger.debug(`[Auth] Cache MISS for user ${userId} — querying DB`);
+  63 
+→ 64 const user = await prisma.user.findUnique(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+  {"method":"GET","path":"/api/analytics/projects?startDate=2026-03-07T19:48:17.558Z&endDate=2026-04-06T19:48:17.558Z","statusCode":500,"userId":"unauthenticated","errorName":"PrismaClientKnownRequestError","prismaCode":"P1001"}
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\Work\egycodera\backend\src\middleware\auth.js:64:36
+
+  61 // ── 4. Cache MISS → fetch from DB ────────────────────────────
+  62 logger.debug(`[Auth] Cache MISS for user ${userId} — querying DB`);
+  63 
+→ 64 const user = await prisma.user.findUnique(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async authenticate (D:\Work\egycodera\backend\src\middleware\auth.js:64:18)
+2026-04-06 22:03:12 [[31merror[39m]: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\Work\egycodera\backend\src\middleware\auth.js:64:36
+
+  61 // ── 4. Cache MISS → fetch from DB ────────────────────────────
+  62 logger.debug(`[Auth] Cache MISS for user ${userId} — querying DB`);
+  63 
+→ 64 const user = await prisma.user.findUnique(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+  {"method":"GET","path":"/api/reports/active-work-summary","statusCode":500,"userId":"unauthenticated","errorName":"PrismaClientKnownRequestError","prismaCode":"P1001"}
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\Work\egycodera\backend\src\middleware\auth.js:64:36
+
+  61 // ── 4. Cache MISS → fetch from DB ────────────────────────────
+  62 logger.debug(`[Auth] Cache MISS for user ${userId} — querying DB`);
+  63 
+→ 64 const user = await prisma.user.findUnique(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async authenticate (D:\Work\egycodera\backend\src\middleware\auth.js:64:18)
+2026-04-06 22:03:13 [[31merror[39m]: Forced shutdown after timeout
+2026-04-06 22:06:31 [[31merror[39m]: 
+Invalid `prisma.notification.count()` invocation in
+D:\Work\egycodera\backend\src\modules\notifications\notifications.routes.js:50:27
+
+  47   },
+  48   orderBy: { createdAt: 'desc' },
+  49 }),
+→ 50 prisma.notification.count(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+  {"method":"GET","path":"/api/notifications?limit=20","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientKnownRequestError","prismaCode":"P1001"}
+PrismaClientKnownRequestError: 
+Invalid `prisma.notification.count()` invocation in
+D:\Work\egycodera\backend\src\modules\notifications\notifications.routes.js:50:27
+
+  47   },
+  48   orderBy: { createdAt: 'desc' },
+  49 }),
+→ 50 prisma.notification.count(
+Can't reach database server at `dashboard-thethreemma-5281.d.aivencloud.com:13834`
+
+Please make sure your database server is running at `dashboard-thethreemma-5281.d.aivencloud.com:13834`.
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async Promise.all (index 1)
+    at async D:\Work\egycodera\backend\src\modules\notifications\notifications.routes.js:40:36
+2026-04-07 00:58:22 [[31merror[39m]: Forced shutdown after timeout
+2026-04-07 01:12:02 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-28T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-28T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-07 01:13:08 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-07 01:16:55 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, deadline, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, deadline, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-07 01:18:21 [[31merror[39m]: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, deadline, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+  {"method":"POST","path":"/api/projects","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientValidationError"}
+PrismaClientValidationError: 
+Invalid `tx.project.create()` invocation in
+D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:40
+
+  123 const { partners, deadline, ...projectData } = data;
+  124 
+  125 const projectId = await prisma.$transaction(async (tx) => {
+→ 126   const project = await tx.project.create({
+          data: {
+            name: "Dashboard",
+            clientName: "EGCodera",
+            clientEmail: "egcodera@gmail.com",
+            totalValue: 0,
+            companyPercentage: 70,
+            description: "",
+            deadline: new Date("2026-04-07T00:00:00.000Z"),
+            ~~~~~~~~
+        ?   id?: String,
+        ?   status?: ProjectStatus,
+        ?   paymentStatus?: PaymentStatus,
+        ?   completionPct?: Int,
+        ?   startDate?: DateTime | Null,
+        ?   endDate?: DateTime | Null,
+        ?   createdAt?: DateTime,
+        ?   updatedAt?: DateTime,
+        ?   partners?: ProjectPartnerCreateNestedManyWithoutProjectInput,
+        ?   expenses?: ExpenseCreateNestedManyWithoutProjectInput,
+        ?   payments?: PaymentCreateNestedManyWithoutProjectInput,
+        ?   milestones?: MilestoneCreateNestedManyWithoutProjectInput,
+        ?   documents?: DocumentCreateNestedManyWithoutProjectInput,
+        ?   chatMessages?: ChatMessageCreateNestedManyWithoutProjectInput,
+        ?   riskFlags?: RiskFlagCreateNestedManyWithoutProjectInput,
+        ?   subscriptions?: SubscriptionCreateNestedManyWithoutProjectInput,
+        ?   proposals?: ProposalCreateNestedManyWithoutProjectInput,
+        ?   decisionLogs?: DecisionLogCreateNestedManyWithoutProjectInput,
+        ?   sprints?: SprintCreateNestedManyWithoutProjectInput,
+        ?   boardColumns?: BoardColumnCreateNestedManyWithoutProjectInput,
+        ?   tasks?: TaskCreateNestedManyWithoutProjectInput,
+        ?   events?: EventCreateNestedManyWithoutProjectInput,
+        ?   automationRules?: AutomationRuleCreateNestedManyWithoutProjectInput,
+        ?   devSessions?: DevSessionCreateNestedManyWithoutProjectInput,
+        ?   devSessionLogs?: DevSessionLogCreateNestedManyWithoutProjectInput,
+        ?   tags?: TagCreateNestedManyWithoutProjectInput
+          }
+        })
+
+Unknown argument `deadline`. Available options are marked with ?.
+    at Nn (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\projects\project.service.js:126:23
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
+    at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
+2026-04-07 01:21:24 [[31merror[39m]: Forced shutdown after timeout
