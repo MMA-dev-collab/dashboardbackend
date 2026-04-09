@@ -305,6 +305,94 @@ class DevtrackerService {
     return { logs, total, page: Number(page), limit: Number(limit) };
   }
 
+  /**
+   * Pause an active session.
+   */
+  async pauseSession(sessionId, userId) {
+    const session = await prisma.devSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        project: { select: { id: true, name: true } },
+        user: { select: { id: true, firstName: true, lastName: true } },
+      },
+    });
+    if (!session || !session.isActive) throw new NotFoundError('Active session not found');
+    if (session.userId !== userId) throw new ForbiddenError('Not your session');
+    if (session.pausedAt) throw new ConflictError('Session is already paused');
+
+    const now = new Date();
+    const updated = await prisma.devSession.update({
+      where: { id: sessionId },
+      data: { pausedAt: now },
+      include: {
+        user: { select: { id: true, firstName: true, lastName: true, profilePicture: true } },
+        project: { select: { id: true, name: true } },
+        task: { select: { id: true, title: true } },
+      },
+    });
+
+    broadcastDevEvent({ type: 'SESSION_PAUSED', session: updated });
+    return updated;
+  }
+
+  /**
+   * Resume a paused session.
+   */
+  async resumeSession(sessionId, userId) {
+    const session = await prisma.devSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        project: { select: { id: true, name: true } },
+        user: { select: { id: true, firstName: true, lastName: true } },
+      },
+    });
+    if (!session || !session.isActive) throw new NotFoundError('Active session not found');
+    if (session.userId !== userId) throw new ForbiddenError('Not your session');
+    if (!session.pausedAt) throw new ConflictError('Session is not paused');
+
+    const now = new Date();
+    const pausedDuration = now.getTime() - session.pausedAt.getTime();
+    const newTotalPausedMs = (session.totalPausedMs || 0) + pausedDuration;
+
+    const updated = await prisma.devSession.update({
+      where: { id: sessionId },
+      data: {
+        pausedAt: null,
+        totalPausedMs: newTotalPausedMs,
+      },
+      include: {
+        user: { select: { id: true, firstName: true, lastName: true, profilePicture: true } },
+        project: { select: { id: true, name: true } },
+        task: { select: { id: true, title: true } },
+      },
+    });
+
+    broadcastDevEvent({ type: 'SESSION_RESUMED', session: updated });
+    return updated;
+  }
+
+  /**
+   * Cancel (delete) an active session without recording history.
+   */
+  async cancelSession(sessionId, userId) {
+    const session = await prisma.devSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        project: { select: { id: true, name: true } },
+        user: { select: { id: true, firstName: true, lastName: true } },
+      },
+    });
+    if (!session || !session.isActive) throw new NotFoundError('Active session not found');
+    if (session.userId !== userId) throw new ForbiddenError('Not your session');
+
+    const projectId = session.projectId;
+
+    await prisma.devSession.delete({ where: { id: sessionId } });
+
+    broadcastDevEvent({ type: 'SESSION_CANCELLED', sessionId, projectId });
+    return { success: true };
+  }
+
   // Expose helpers for cron job
   static get broadcastDevEvent() { return broadcastDevEvent; }
   static get addDevClient() { return addDevClient; }

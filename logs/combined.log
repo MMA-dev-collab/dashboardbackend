@@ -6052,3 +6052,117 @@ Unknown argument `deadline`. Available options are marked with ?.
 2026-04-07 01:21:58 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=0)
 2026-04-07 01:21:58 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=0)
 2026-04-07 01:21:58 [[32minfo[39m]: ✓ Server shut down cleanly
+2026-04-07 01:27:13 [[32minfo[39m]: ✓ Database connected
+2026-04-07 01:27:13 [[32minfo[39m]: ✓ EgyCodera API running on port 5000 [development]
+2026-04-07 01:27:13 [[32minfo[39m]: ✓ Calendar cron job active
+2026-04-07 01:27:14 [[34mdebug[39m]: [Auth] Cache MISS for user e2448ccd-5123-4d52-b172-a15ae7b30abc — querying DB
+2026-04-07 01:27:15 [[34mdebug[39m]: [SSE] Client connected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=1)
+2026-04-07 01:28:18 [[32minfo[39m]: SIGINT received — shutting down gracefully...
+2026-04-07 01:28:18 [[32minfo[39m]: [SSE] Closed 1 active SSE connection(s) during shutdown
+2026-04-07 01:28:18 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:28:18 +0000] "GET /api/notifications/stream?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMjQ0OGNjZC01MTIzLTRkNTItYjE3Mi1hMTVhZTdiMzBhYmMiLCJyb2xlcyI6WyJBZG1pbiJdLCJpYXQiOjE3NzU1MTc1MjQsImV4cCI6MTc3NTUxODQyNH0.a8WBOpkLDfFt_AEeMWpZ5GChiQMqAEduQBcpLjitnU0 HTTP/1.1" 200 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:28:18 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=0)
+2026-04-07 01:28:18 [[32minfo[39m]: ✓ Server shut down cleanly
+2026-04-07 01:28:21 [[32minfo[39m]: ✓ Database connected
+2026-04-07 01:28:21 [[32minfo[39m]: ✓ EgyCodera API running on port 5000 [development]
+2026-04-07 01:28:21 [[32minfo[39m]: ✓ Calendar cron job active
+2026-04-07 01:28:21 [[34mdebug[39m]: [Auth] Cache MISS for user e2448ccd-5123-4d52-b172-a15ae7b30abc — querying DB
+2026-04-07 01:28:22 [[34mdebug[39m]: [SSE] Client connected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=1)
+2026-04-07 01:29:10 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:10 +0000] "POST /api/auth/login HTTP/1.1" 200 2116862 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [SSE] Client connected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=2)
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/ai/history HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/notifications?limit=20 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/notifications/count HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/projects HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/ai/history HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/notifications?limit=20 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/notifications/count HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:11 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:11 +0000] "GET /api/projects HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/finance/overview HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/analytics/projects?startDate=2026-03-07T23:29:12.387Z&endDate=2026-04-06T23:29:12.387Z HTTP/1.1" 200 135 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/analytics/revenue?startDate=2026-03-07T23:29:12.387Z&endDate=2026-04-06T23:29:12.387Z HTTP/1.1" 200 63 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/analytics/projects?startDate=2026-03-07T23:29:12.387Z&endDate=2026-04-06T23:29:12.387Z HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/finance/overview HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/analytics/revenue?startDate=2026-03-07T23:29:12.387Z&endDate=2026-04-06T23:29:12.387Z HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:12 +0000] "GET /api/analytics/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:12 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:13 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:13 +0000] "GET /api/analytics/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:13 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:13 +0000] "GET /api/reports/task-summary?range=30 HTTP/1.1" 200 594 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:13 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:13 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:13 +0000] "GET /api/reports/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:13 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:14 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:14 +0000] "GET /api/reports/active-work-summary HTTP/1.1" 200 2397519 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:14 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:14 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:14 +0000] "GET /api/reports/task-summary?range=30 HTTP/1.1" 200 594 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:15 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:15 +0000] "GET /api/reports/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:15 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:15 +0000] "GET /api/reports/active-work-summary HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:27 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:27 +0000] "GET /api/notifications/stream?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMjQ0OGNjZC01MTIzLTRkNTItYjE3Mi1hMTVhZTdiMzBhYmMiLCJyb2xlcyI6WyJBZG1pbiJdLCJpYXQiOjE3NzU1MTgxNTAsImV4cCI6MTc3NTUxOTA1MH0.4egeGbCZ7YRwmBOmy4sP7f7fgjqjCYsTuB6d_5EtsPI HTTP/1.1" 200 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:27 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=1)
+2026-04-07 01:29:28 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:29 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:29 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:29 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[34mdebug[39m]: [SSE] Client connected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=2)
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/notifications/count HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/analytics/revenue?startDate=2026-03-07T23:29:30.205Z&endDate=2026-04-06T23:29:30.205Z HTTP/1.1" 200 63 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/analytics/projects?startDate=2026-03-07T23:29:30.205Z&endDate=2026-04-06T23:29:30.205Z HTTP/1.1" 200 135 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/notifications?limit=20 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/auth/profile HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/ai/history HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/analytics/revenue?startDate=2026-03-07T23:29:30.216Z&endDate=2026-04-06T23:29:30.216Z HTTP/1.1" 200 63 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/analytics/projects?startDate=2026-03-07T23:29:30.216Z&endDate=2026-04-06T23:29:30.216Z HTTP/1.1" 200 135 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/analytics/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/notifications?limit=20 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/notifications/count HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:30 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:30 +0000] "GET /api/ai/history HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:31 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:31 +0000] "GET /api/analytics/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:31 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:31 +0000] "GET /api/reports/task-summary?range=30 HTTP/1.1" 200 594 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:31 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:31 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:31 +0000] "GET /api/reports/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:31 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:32 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:32 +0000] "GET /api/reports/task-summary?range=30 HTTP/1.1" 200 594 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:33 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:33 +0000] "GET /api/reports/active-work-summary HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:33 [[34mdebug[39m]: [Auth] Cache HIT for user e2448ccd-5123-4d52-b172-a15ae7b30abc
+2026-04-07 01:29:33 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:33 +0000] "GET /api/reports/workload HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:35 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:35 +0000] "GET /api/reports/active-work-summary HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:44 [[33mwarn[39m]: No token provided
+  {"method":"GET","path":"/api/reports/active-work-summary","statusCode":401,"userId":"unauthenticated","errorName":"Error"}
+2026-04-07 01:29:44 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:44 +0000] "GET /api/reports/active-work-summary HTTP/1.1" 401 1123 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:29:45 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:29:45 +0000] "GET /favicon.ico HTTP/1.1" 404 45 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:31:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:31:30 +0000] "GET /api/notifications/stream?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMjQ0OGNjZC01MTIzLTRkNTItYjE3Mi1hMTVhZTdiMzBhYmMiLCJyb2xlcyI6WyJBZG1pbiJdLCJpYXQiOjE3NzU1MTc1MjQsImV4cCI6MTc3NTUxODQyNH0.a8WBOpkLDfFt_AEeMWpZ5GChiQMqAEduQBcpLjitnU0 HTTP/1.1" 200 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:31:30 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=1)
+2026-04-07 01:31:30 [[32mhttp[39m]: ::1 - - [06/Apr/2026:23:31:30 +0000] "GET /api/notifications/stream?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMjQ0OGNjZC01MTIzLTRkNTItYjE3Mi1hMTVhZTdiMzBhYmMiLCJyb2xlcyI6WyJBZG1pbiJdLCJpYXQiOjE3NzU1MTgxNTAsImV4cCI6MTc3NTUxOTA1MH0.4egeGbCZ7YRwmBOmy4sP7f7fgjqjCYsTuB6d_5EtsPI HTTP/1.1" 200 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 01:31:30 [[34mdebug[39m]: [SSE] Client disconnected: userId=e2448ccd-5123-4d52-b172-a15ae7b30abc (total connections=0)
