@@ -120,10 +120,12 @@ class ProjectService {
   }
 
   async create(data) {
-    const { partners, ...projectData } = data;
+    const { partners, deadline, ...projectData } = data;
 
     const projectId = await prisma.$transaction(async (tx) => {
-      const project = await tx.project.create({ data: projectData });
+      const project = await tx.project.create({
+        data: { ...projectData, endDate: deadline },
+      });
 
       if (partners && partners.length > 0) {
         const { valid, total } = validatePercentages(projectData.companyPercentage, partners);

@@ -59,9 +59,10 @@ class SprintsService {
     if (!sprint) throw new NotFoundError('Sprint not found');
 
     await prisma.sprintMember.deleteMany({ where: { sprintId } });
-    if (members && members.length > 0) {
+    const validMembers = (members || []).filter(m => m.userId);
+    if (validMembers.length > 0) {
       await prisma.sprintMember.createMany({
-        data: members.map(m => ({
+        data: validMembers.map(m => ({
           sprintId,
           userId: m.userId,
           role: m.role || 'developer'

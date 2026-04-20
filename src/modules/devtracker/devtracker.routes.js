@@ -88,4 +88,25 @@ router.post('/force-end/:sessionId', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+router.post('/pause/:sessionId', async (req, res, next) => {
+  try {
+    const session = await devtrackerService.pauseSession(req.params.sessionId, req.user.id);
+    success(res, session, 'Session paused');
+  } catch (err) { next(err); }
+});
+
+router.post('/resume/:sessionId', async (req, res, next) => {
+  try {
+    const session = await devtrackerService.resumeSession(req.params.sessionId, req.user.id);
+    success(res, session, 'Session resumed');
+  } catch (err) { next(err); }
+});
+
+router.post('/cancel/:sessionId', async (req, res, next) => {
+  try {
+    const result = await devtrackerService.cancelSession(req.params.sessionId, req.user.id);
+    success(res, result, 'Session cancelled');
+  } catch (err) { next(err); }
+});
+
 module.exports = router;
