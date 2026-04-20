@@ -27,26 +27,36 @@ function calculateCompanyShare(netProfit, companyPercentage) {
 
 /**
  * Calculate partner distribution.
- * remaining = net_profit - company_share
- * partner_share = remaining * (partner_percentage / 100)
+ * All percentages (company + partners) are applied directly to the full net profit.
+ * The sum of companyPercentage + all partner percentages must equal 100.
+ *
+ * Example:
+ *   netProfit = 100,000  companyPercentage = 10
+ *   partners = [{ percentage: 35 }, { percentage: 30 }, { percentage: 25 }]
+ *   → companyShare  = 10,000  (10%)
+ *   → partner A     = 35,000  (35%)
+ *   → partner B     = 30,000  (30%)
+ *   → partner C     = 25,000  (25%)
  *
  * @param {Decimal|number} netProfit
- * @param {Decimal|number} companyPercentage
- * @param {Array<{userId: string, percentage: number}>} partners
- * @returns {{ companyShare: Decimal, partnerShares: Array<{userId: string, amount: Decimal}>, remaining: Decimal }}
+ * @param {Decimal|number} companyPercentage - Company's share as % of the full total
+ * @param {Array<{userId: string, percentage: number}>} partners - Each partner's % of the full total
+ * @returns {{ companyShare: Decimal, partnerShares: Array<{userId: string, percentage: Decimal, amount: Decimal}> }}
  */
 function calculateDistribution(netProfit, companyPercentage, partners) {
   const np = new Decimal(netProfit);
-  const companyShare = calculateCompanyShare(np, companyPercentage);
-  const remaining = np.minus(companyShare);
 
+  // Company gets its percentage of the FULL net profit
+  const companyShare = calculateCompanyShare(np, companyPercentage);
+
+  // Each partner also gets their percentage of the FULL net profit
   const partnerShares = partners.map((p) => ({
     userId: p.userId,
     percentage: new Decimal(p.percentage),
-    amount: remaining.times(new Decimal(p.percentage).dividedBy(100)),
+    amount: np.times(new Decimal(p.percentage).dividedBy(100)),
   }));
 
-  return { companyShare, remaining, partnerShares };
+  return { companyShare, partnerShares };
 }
 
 /**

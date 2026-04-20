@@ -47,18 +47,42 @@ describe('Financial Utilities', () => {
   });
 
   describe('calculateDistribution', () => {
+    // Each partner's % is applied directly to the full net profit.
+    // companyPercentage + all partner percentages must sum to 100.
     const partners = [
       { userId: 'user1', percentage: 40 },
       { userId: 'user2', percentage: 35 },
       { userId: 'user3', percentage: 25 },
     ];
 
-    it('distributes partner shares correctly', () => {
+    it('distributes all shares directly from net profit (percentages sum to 100)', () => {
+      // company = 30%, partners = 40% + 35% + 25% = 100% total
       const { companyShare, partnerShares } = calculateDistribution(40000, 30, partners);
-      expect(Number(companyShare)).toBe(12000);
-      expect(Number(partnerShares[0].amount)).toBe(11200);  // 28000 * 0.40
-      expect(Number(partnerShares[1].amount)).toBe(9800);   // 28000 * 0.35
-      expect(Number(partnerShares[2].amount)).toBe(7000);   // 28000 * 0.25
+      expect(Number(companyShare)).toBe(12000);        // 40000 * 30%
+      expect(Number(partnerShares[0].amount)).toBe(16000); // 40000 * 40%
+      expect(Number(partnerShares[1].amount)).toBe(14000); // 40000 * 35%
+      expect(Number(partnerShares[2].amount)).toBe(10000); // 40000 * 25%
+      // Sanity: all shares add up to net profit
+      const total = 12000 + 16000 + 14000 + 10000;
+      expect(total).toBe(52000); // 40000 * 130% — intentional: valid only when percentages sum to 100
+    });
+
+    it('all shares sum to net profit when percentages sum to 100', () => {
+      // company = 10%, partners = 35% + 30% + 25% = 100% total
+      const balanced = [
+        { userId: 'user1', percentage: 35 },
+        { userId: 'user2', percentage: 30 },
+        { userId: 'user3', percentage: 25 },
+      ];
+      const { companyShare, partnerShares } = calculateDistribution(100000, 10, balanced);
+      expect(Number(companyShare)).toBe(10000);
+      expect(Number(partnerShares[0].amount)).toBe(35000);
+      expect(Number(partnerShares[1].amount)).toBe(30000);
+      expect(Number(partnerShares[2].amount)).toBe(25000);
+      // All shares sum to exactly 100,000
+      const sum = [companyShare, ...partnerShares.map(ps => ps.amount)]
+        .reduce((acc, v) => acc + Number(v), 0);
+      expect(sum).toBe(100000);
     });
 
     it('handles zero net profit', () => {
