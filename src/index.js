@@ -27,10 +27,12 @@ async function main() {
     startCalendarCron,
     startAutomationCron,
     startDevSessionTimeoutCron,
+    startGrowthCronJobs,
   } = require('./jobs/cron');
   startCalendarCron();
   startAutomationCron();
   startDevSessionTimeoutCron();
+  startGrowthCronJobs();
 
   // ── Start listening ────────────────────────────────────────────
   server.listen(PORT, () => {

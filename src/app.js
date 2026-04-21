@@ -34,6 +34,13 @@ const devtrackerRoutes = require('./modules/devtracker/devtracker.routes');
 const tagsRoutes = require('./modules/tags/tags.routes');
 const reportRoutes = require('./modules/reports/reports.routes');
 const userTasksRoutes = require('./modules/tasks/user-tasks.routes');
+const growthTasksRoutes = require('./modules/growth-tasks/growth-tasks.routes');
+const growthScheduleRoutes = require('./modules/growth-schedule/growth-schedule.routes');
+const growthGamingRoutes = require('./modules/growth-gaming/growth-gaming.routes');
+const growthXpRoutes = require('./modules/growth-xp/growth-xp.routes');
+const growthTeamsRoutes = require('./modules/growth-teams/growth-teams.routes');
+const growthSettingsRoutes = require('./modules/growth-settings/growth-settings.routes');
+const growthRoutineRoutes = require('./modules/growth-routine/growth-routine.routes');
 
 const app = express();
 
@@ -84,6 +91,15 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/tasks', userTasksRoutes);
 app.use('/api/automations', automationRoutes);
 app.use('/api/devtracker', devtrackerRoutes);
+
+// ── Personal Growth routes ─────────────────────────────────────────
+app.use('/api/growth/tasks', growthTasksRoutes);
+app.use('/api/growth/schedule', growthScheduleRoutes);
+app.use('/api/growth/gaming', growthGamingRoutes);
+app.use('/api/growth/xp', growthXpRoutes);
+app.use('/api/growth/teams', growthTeamsRoutes);
+app.use('/api/growth/settings', growthSettingsRoutes);
+app.use('/api/growth/routine', growthRoutineRoutes);
 
 // ── Agile project children routes ─────────────────────────────────
 app.use('/api/projects/:projectId/sprints', sprintRoutes);

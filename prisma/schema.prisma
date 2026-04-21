@@ -24,6 +24,18 @@ model User {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
+  // Personal Growth
+  totalXp              Int       @default(0) @map("total_xp")
+  currentLevel         Int       @default(1) @map("current_level")
+  dailyFreeTimeMinutes Int       @default(0) @map("daily_free_time_minutes")
+  gamingTimeMinutes    Int       @default(0) @map("gaming_time_minutes")
+  sleepTime            String?   @map("sleep_time")
+  wakeTime             String?   @map("wake_time")
+  timezone              String?              @map("timezone")
+  totalGamingMinutes    Int       @default(120) @map("total_gaming_minutes")
+  soloGamingMinutes     Int       @default(60)  @map("solo_gaming_minutes")
+  collabGamingMinutes   Int       @default(60)  @map("collab_gaming_minutes")
+
   // Relations
   userRoles              UserRole[]
   refreshTokens          RefreshToken[]
@@ -60,6 +72,22 @@ model User {
   devSessionLogs         DevSessionLog[]
   forcedEndedSessions    DevSessionLog[]     @relation("ForceEndedBy")
   sprintMembers          SprintMember[]
+
+  // Personal Growth relations
+  growthTasks           GrowthTask[]
+  schedules            Schedule[]
+  gamingSessions       GamingSession[]
+  xpLogs               XpLog[]
+  streak               Streak?
+  createdGrowthTeams   GrowthTeam[]
+  teamMemberships      GrowthTeamMember[]
+  sentFriendships      Friendship[]       @relation("FriendshipRequester")
+  receivedFriendships  Friendship[]       @relation("FriendshipAddressee")
+  availabilitySlots    AvailabilitySlot[]
+  sentGrowthInvites    GrowthInvite[]     @relation("GrowthInviteInviter")
+  receivedGrowthInvites GrowthInvite[]    @relation("GrowthInviteInvitee")
+  routineCheckins RoutineCheckin[]
+  dailySummaries  DailySummary[]
 
   @@map("users")
 }
@@ -1126,4 +1154,364 @@ model DevSessionLog {
   @@index([userId])
   @@index([startedAt])
   @@map("dev_session_logs")
+}
+
+// ============================================
+// PERSONAL GROWTH SYSTEM
+// ============================================
+
+model GrowthTask {
+  id                     String              @id @default(uuid())
+  userId                 String              @map("user_id")
+  title                  String
+  description            String?             @db.Text
+  duration               Int                 @map("duration")
+  priority               GrowthTaskPriority  @default(MEDIUM)
+  xpReward               Int                 @default(0) @map("xp_reward")
+  status                 GrowthTaskStatus    @default(PENDING)
+  taskType               GrowthTaskType      @default(FLEXIBLE)
+  isCarryOver            Boolean             @default(false) @map("is_carry_over")
+  carryOverFrom          DateTime?           @map("carry_over_from")
+  scheduledDate          DateTime?           @map("scheduled_date") @db.Date
+  scheduledTime          DateTime?           @map("scheduled_time")
+  dueDate                DateTime?           @map("due_date")
+  completedAt            DateTime?           @map("completed_at")
+  focusBlocksCompleted   Int                 @default(0) @map("focus_blocks_completed")
+  createdAt              DateTime            @default(now()) @map("created_at")
+  updatedAt              DateTime            @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  scheduleBlocks ScheduleBlock[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([scheduledDate])
+  @@index([userId, status])
+  @@map("growth_tasks")
+}
+
+enum GrowthTaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum GrowthTaskStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  OVERDUE
+}
+
+enum GrowthTaskType {
+  FIXED
+  FLEXIBLE
+}
+
+model Schedule {
+  id                  String   @id @default(uuid())
+  userId              String   @map("user_id")
+  date                DateTime @db.Date @map("date")
+  totalFreeTime       Int      @default(0) @map("total_free_time")
+  totalScheduledTime  Int      @default(0) @map("total_scheduled_time")
+  gamingMinutes       Int?     @map("gaming_minutes")
+  soloMinutes         Int?     @map("solo_minutes")
+  collabMinutes       Int?     @map("collab_minutes")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blocks ScheduleBlock[]
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("schedules")
+}
+
+model ScheduleBlock {
+  id          String              @id @default(uuid())
+  scheduleId  String              @map("schedule_id")
+  growthTaskId String?            @map("growth_task_id")
+  title       String
+  blockType   ScheduleBlockType   @default(TASK)
+  startTime   DateTime            @map("start_time")
+  endTime     DateTime            @map("end_time")
+  duration    Int
+  status      ScheduleBlockStatus @default(PENDING)
+  color       String?
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+
+  schedule   Schedule    @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  growthTask GrowthTask? @relation(fields: [growthTaskId], references: [id], onDelete: SetNull)
+
+  @@index([scheduleId])
+  @@index([growthTaskId])
+  @@index([startTime, endTime])
+  @@map("schedule_blocks")
+}
+
+enum ScheduleBlockType {
+  TASK
+  FIXED_EVENT
+  GAMING
+  FOCUS_BLOCK
+  BREAK
+}
+
+enum ScheduleBlockStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+}
+
+model GamingSession {
+  id              String              @id @default(uuid())
+  userId          String              @map("user_id")
+  sessionType     GamingSessionType   @default(SOLO)
+  teamId          String?             @map("team_id")
+  startTime       DateTime            @map("start_time")
+  endTime         DateTime?           @map("end_time")
+  plannedDuration Int                 @default(0) @map("planned_duration")
+  actualDuration  Int                 @default(0) @map("actual_duration")
+  startedAt       DateTime?           @map("started_at")
+  endedAt         DateTime?           @map("ended_at")
+  status          GamingSessionStatus @default(SCHEDULED)
+  isLocked        Boolean             @default(false) @map("is_locked")
+  lockReason      String?            @map("lock_reason") @db.Text
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team GrowthTeam? @relation(fields: [teamId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([startTime])
+  @@map("gaming_sessions")
+}
+
+enum GamingSessionType {
+  SOLO
+  TEAM
+}
+
+enum GamingSessionStatus {
+  SCHEDULED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model XpLog {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  amount      Int
+  source      XpSource
+  referenceId String?  @map("reference_id")
+  multiplier  Float    @default(1.0)
+  description String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([source])
+  @@index([createdAt])
+  @@map("xp_logs")
+}
+
+enum XpSource {
+  TASK_COMPLETION
+  FOCUS_BLOCK
+  ROUTINE
+  STREAK_BONUS
+  WELLNESS
+  PENALTY
+  GAMING
+  TEAM_PARTICIPATION
+}
+
+model Streak {
+  id              String    @id @default(uuid())
+  userId          String    @unique @map("user_id")
+  currentStreak   Int       @default(0) @map("current_streak")
+  longestStreak   Int       @default(0) @map("longest_streak")
+  lastActiveDate  DateTime? @map("last_active_date") @db.Date
+  multiplier      Float     @default(1.0)
+  sleepStreak        Int      @default(0) @map("sleep_streak")
+  longestSleepStreak Int      @default(0) @map("longest_sleep_streak")
+  lastSleepCheckin   DateTime?            @map("last_sleep_checkin")
+  wakeStreak         Int      @default(0) @map("wake_streak")
+  longestWakeStreak  Int      @default(0) @map("longest_wake_streak")
+  lastWakeCheckin    DateTime?            @map("last_wake_checkin")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("streaks")
+}
+
+model GrowthTeam {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  createdBy   String   @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  creator  User              @relation(fields: [createdBy], references: [id])
+  members  GrowthTeamMember[]
+  invites  GrowthInvite[]
+  gamingSessions GamingSession[]
+
+  @@index([createdBy])
+  @@map("growth_teams")
+}
+
+model GrowthTeamMember {
+  id     String @id @default(uuid())
+  teamId String @map("team_id")
+  userId String @map("user_id")
+  role   String @default("member")
+
+  team GrowthTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@map("growth_team_members")
+}
+
+model Friendship {
+  id          String            @id @default(uuid())
+  requesterId String            @map("requester_id")
+  addresseeId String            @map("addressee_id")
+  status      FriendshipStatus  @default(PENDING)
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee User @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, addresseeId])
+  @@index([requesterId])
+  @@index([addresseeId])
+  @@index([status])
+  @@map("friendships")
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+}
+
+model AvailabilitySlot {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  dayOfWeek    Int       @map("day_of_week")
+  startTime    String    @map("start_time")
+  endTime      String    @map("end_time")
+  isRecurring  Boolean   @default(true) @map("is_recurring")
+  specificDate DateTime? @map("specific_date") @db.Date
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([dayOfWeek])
+  @@map("availability_slots")
+}
+
+model GrowthInvite {
+  id         String             @id @default(uuid())
+  teamId     String?            @map("team_id")
+  sessionId  String?            @map("session_id")
+  inviterId  String             @map("inviter_id")
+  inviteeId  String             @map("invitee_id")
+  type       GrowthInviteType   @default(TEAM)
+  status     GrowthInviteStatus @default(PENDING)
+  message    String?            @db.Text
+  createdAt  DateTime           @default(now()) @map("created_at")
+  updatedAt  DateTime           @updatedAt @map("updated_at")
+
+  team    GrowthTeam? @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  inviter User       @relation("GrowthInviteInviter", fields: [inviterId], references: [id])
+  invitee User       @relation("GrowthInviteInvitee", fields: [inviteeId], references: [id], onDelete: Cascade)
+
+  @@index([teamId])
+  @@index([inviteeId])
+  @@index([status])
+  @@map("growth_invites")
+}
+
+enum GrowthInviteType {
+  TEAM
+  SESSION
+}
+
+enum GrowthInviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+model RoutineCheckin {
+  id               String             @id @default(uuid())
+  userId           String             @map("user_id")
+  type             RoutineCheckinType
+  checkinAt        DateTime           @map("checkin_at")
+  isOnTime         Boolean            @map("is_on_time")
+  deviationMinutes Int                @map("deviation_minutes")
+  date             DateTime           @db.Date @map("date")
+  createdAt        DateTime           @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, date])
+  @@index([userId])
+  @@index([date])
+  @@map("routine_checkins")
+}
+
+enum RoutineCheckinType {
+  SLEEP
+  WAKE
+}
+
+model DailySummary {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  date               DateTime @db.Date @map("date")
+  baseGamingMinutes  Int      @default(0) @map("base_gaming_minutes")
+  penaltyMinutes     Int      @default(0) @map("penalty_minutes")
+  bonusMinutes       Int      @default(0) @map("bonus_minutes")
+  finalGamingMinutes Int      @default(0) @map("final_gaming_minutes")
+  soloMinutes        Int      @default(0) @map("solo_minutes")
+  collabMinutes      Int      @default(0) @map("collab_minutes")
+  overduePenalty     Int      @default(0) @map("overdue_penalty")
+  carryOverPenalty   Int      @default(0) @map("carry_over_penalty")
+  lateSleepPenalty   Int      @default(0) @map("late_sleep_penalty")
+  missedWakePenalty  Int      @default(0) @map("missed_wake_penalty")
+  completedTaskBonus Int      @default(0) @map("completed_task_bonus")
+  streakBonus        Int      @default(0) @map("streak_bonus")
+  onTimeSleepBonus   Int      @default(0) @map("on_time_sleep_bonus")
+  onTimeWakeBonus    Int      @default(0) @map("on_time_wake_bonus")
+  sleepCheckedIn     Boolean  @default(false) @map("sleep_checked_in")
+  wakeCheckedIn      Boolean  @default(false) @map("wake_checked_in")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("daily_summaries")
 }

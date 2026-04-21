@@ -1904,3 +1904,44 @@ Unknown argument `deadline`. Available options are marked with ?.
     at async ProjectService.create (D:\Work\egycodera\backend\src\modules\projects\project.service.js:125:23)
     at async create (D:\Work\egycodera\backend\src\modules\projects\project.controller.js:28:23)
 2026-04-07 01:21:24 [[31merror[39m]: Forced shutdown after timeout
+2026-04-09 04:46:38 [[31merror[39m]: Forced shutdown after timeout
+2026-04-16 16:59:33 [[31merror[39m]: Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 7829 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  {"method":"POST","path":"/api/growth/routine/checkin","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientKnownRequestError","prismaCode":"P2028"}
+PrismaClientKnownRequestError: Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 7829 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+    at Qr.transaction (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:111:11521)
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8154)
+    at async checkin (D:\Work\egycodera\backend\src\modules\growth-routine\growth-routine.controller.js:14:20)
+2026-04-16 17:05:03 [[31merror[39m]: Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 7216 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  {"method":"POST","path":"/api/growth/routine/checkin","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientKnownRequestError","prismaCode":"P2028"}
+PrismaClientKnownRequestError: Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 7216 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+    at Qr.transaction (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:111:11521)
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8154)
+    at async checkin (D:\Work\egycodera\backend\src\modules\growth-routine\growth-routine.controller.js:14:20)
+2026-04-16 18:49:27 [[31merror[39m]: 
+Invalid `tx.user.update()` invocation in
+D:\Work\egycodera\backend\src\modules\growth-xp\growth-xp.service.js:188:23
+
+  185 
+  186 const newLevel = this.calculateLevel(updatedUser.totalXp);
+  187 if (newLevel !== updatedUser.currentLevel) {
+→ 188   await tx.user.update(
+Transaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 73337 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  {"method":"PATCH","path":"/api/growth/tasks/e4b4ecfb-c49c-4e01-9145-fd45b9ef9bf6/complete","statusCode":500,"userId":"e2448ccd-5123-4d52-b172-a15ae7b30abc","errorName":"PrismaClientKnownRequestError","prismaCode":"P2028"}
+PrismaClientKnownRequestError: 
+Invalid `tx.user.update()` invocation in
+D:\Work\egycodera\backend\src\modules\growth-xp\growth-xp.service.js:188:23
+
+  185 
+  186 const newLevel = this.calculateLevel(updatedUser.totalXp);
+  187 if (newLevel !== updatedUser.currentLevel) {
+→ 188   await tx.user.update(
+Transaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 73337 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+    at ei.handleRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:7268)
+    at ei.handleAndLogRequestError (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async D:\Work\egycodera\backend\src\modules\growth-xp\growth-xp.service.js:188:9
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async D:\Work\egycodera\backend\src\modules\growth-tasks\growth-tasks.service.js:156:24
+    at async Proxy._transactionWithCallback (D:\Work\egycodera\backend\node_modules\@prisma\client\runtime\library.js:130:8120)
+    at async completeTask (D:\Work\egycodera\backend\src\modules\growth-tasks\growth-tasks.controller.js:56:22)
